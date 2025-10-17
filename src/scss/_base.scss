@@ -1,0 +1,72 @@
+@import 'variables';
+
+*{box-sizing: border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: $bg;
+  color: $text;
+}
+.container{
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.site-header{
+  margin-bottom: 1.5rem;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: $gap;
+}
+
+.brand h1{margin:0;font-size:1.5rem}
+.brand .subtitle{margin:0;color:$muted}
+
+.controls{display:flex;gap:.5rem;align-items:center}
+
+.search{
+  padding:.5rem .75rem;
+  border-radius:8px;
+  border:1px solid rgba(15,23,42,0.06);
+  min-width:200px;
+}
+
+.theme-toggle{
+  padding:.45rem .6rem;
+  border-radius:8px;
+  border:1px solid rgba(15,23,42,0.06);
+  background:transparent;
+  cursor:pointer;
+}
+
+/* Dark theme root */
+:root{
+  --bg: #{$bg};
+  --card: #{$card};
+  --text: #{$text};
+  --muted: #{$muted};
+}
+
+/* dark mode variables are set on html.dark */
+html.dark{
+  --bg: #0f1724;
+  --card: #0b1220;
+  --text: #e6eef9;
+  --muted: #9aa6bf;
+}
+
+html, html body{
+  background: var(--bg);
+  color: var(--text);
+}
+.site-footer{
+  text-align:center;
+  margin-top: 2rem;
+  color: $muted;
+  font-size: .9rem;
+}

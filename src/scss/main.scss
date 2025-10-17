@@ -1,0 +1,11 @@
+@import 'variables';
+@import 'base';
+@import 'grid';
+
+/* Estilos adicionales rápidos */
+
+header.site-header h1{margin:0;font-size:1.75rem}
+header.site-header p{margin:.25rem 0 0;color:$muted}
+
+/* Estado cuando no hay enlaces */
+.empty-state{ text-align:center;color:$muted;padding:3rem 0}

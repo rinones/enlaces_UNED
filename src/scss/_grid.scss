@@ -1,0 +1,72 @@
+
+@import 'variables';
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: $gap;
+}
+
+.link-card{
+  background: var(--card);
+  padding: 1rem;
+  border-radius: $radius;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+  display:block;
+  align-items:flex-start;
+  justify-content:center;
+  text-align:center;
+  transition: transform .15s ease, box-shadow .15s ease;
+  text-decoration:none;
+  color: inherit;
+  height:100%;
+  position:relative;
+}
+
+.link-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(15,23,42,0.12);
+}
+
+.link-icon{
+  width: 48px;
+  height: 48px;
+  margin: 0 auto .5rem auto;
+  border-radius:8px;
+}
+
+.link-title{
+  font-weight:600;
+}
+
+.link-content{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.link-desc{font-size:.9rem;color:var(--muted)}
+
+.section-badge{
+  position:absolute;
+  top:8px;
+  left:8px;
+  padding:4px 8px;
+  font-size:.75rem;
+  color:white;
+  border-radius:999px;
+  background:#0AA5A1;
+}
+
+/* Predefined section styles */
+.section-comun .link-icon{background:#E6F7F6;box-shadow: inset 0 0 0 2px #0AA5A122}
+.section-comun .section-badge{background:#0AA5A1}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.25rem}
+.page-btn{padding:.5rem .75rem;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:transparent;cursor:pointer}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.page-info{font-size:.95rem;color:var(--muted)}
+
+/* Empty state */
+.empty-state{padding:2rem 0;color:var(--muted)}
+
+/* Dark theme overrides */
+html.dark .link-card{background: var(--card); box-shadow:none}
+html.dark .search, html.dark .theme-toggle{border-color: rgba(255,255,255,0.06)}
+html.dark .link-desc{color:var(--muted)}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enlaces UNED</title>
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Enlaces UNED</h1>
+          <p class="subtitle">Cuadrícula de accesos rápidos</p>
+        </div>
+
+        <div class="controls">
+          <input id="search-input" class="search" type="search" placeholder="Buscar enlaces..." aria-label="Buscar enlaces">
+          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div id="links-grid" class="grid" aria-live="polite">
+        <!-- Las tarjetas se renderizan con JS -->
+      </div>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <p>No hay enlaces. Añade algunos en el archivo de datos o pegando la lista.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© UNED - Enlaces</p>
+    </footer>
+  </main>
+
+  <script src="src/js/app.js" type="module"></script>
+</body>
+</html>

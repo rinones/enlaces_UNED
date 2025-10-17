@@ -1,0 +1,10 @@
+[
+	{
+		"title": "Examenes",
+		"url": "http://www.calatayud.uned.es/Examenes/auth/step2.asp?ID_Carrera=7101&NewExams=Continuar",
+		"description": "Examenes Calatayud de II",
+		"section": "Común",
+		"sectionColor": "#0AA5A1",
+		"icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='2' y='3' width='20' height='18' rx='2' fill='#E6F7F6'/><path d='M7 9h10M7 13h6' stroke='#0AA5A1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+	}
+]
