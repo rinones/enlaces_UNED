@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -33,11 +32,11 @@ body {
 
 .brand h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
 }
 
 .brand .subtitle {
-  margin: 0;
+  margin: 0.25rem 0 0;
   color: #6b7280;
 }
 
@@ -190,8 +189,9 @@ html, html body {
 
 /* Empty state */
 .empty-state {
-  padding: 2rem 0;
+  text-align: center;
   color: var(--muted);
+  padding: 3rem 0;
 }
 
 /* Dark theme overrides */
@@ -206,24 +206,6 @@ html.dark .search, html.dark .theme-toggle {
 
 html.dark .link-desc {
   color: var(--muted);
-}
-
-/* Estilos adicionales rápidos */
-header.site-header h1 {
-  margin: 0;
-  font-size: 1.75rem;
-}
-
-header.site-header p {
-  margin: 0.25rem 0 0;
-  color: #6b7280;
-}
-
-/* Estado cuando no hay enlaces */
-.empty-state {
-  text-align: center;
-  color: #6b7280;
-  padding: 3rem 0;
 }
 
 /*# sourceMappingURL=main.css.map */

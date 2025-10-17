@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="dist/css/main.css">
 </head>
 <body>
-  <main class="container">
+  <div class="container">
     <header class="site-header">
       <div class="topbar">
         <div class="brand">
@@ -22,7 +22,7 @@
       </div>
     </header>
 
-    <section>
+    <main aria-label="Cuadrícula de enlaces">
       <div id="links-grid" class="grid" aria-live="polite">
         <!-- Las tarjetas se renderizan con JS -->
       </div>
@@ -30,12 +30,12 @@
       <div id="empty-state" class="empty-state" hidden>
         <p>No hay enlaces. Añade algunos en el archivo de datos o pegando la lista.</p>
       </div>
-    </section>
+    </main>
 
     <footer class="site-footer">
       <p>© UNED - Enlaces</p>
     </footer>
-  </main>
+  </div>
 
   <script src="dist/js/app.js"></script>
 </body>
