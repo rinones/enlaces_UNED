@@ -1,18 +1,56 @@
 // Datos: puedes rellenar `data/links.json` con un array de objetos {title, url, description, icon}
 let LINKS = [];
 
+console.log('[app] location=', location.href, 'protocol=', location.protocol);
+
 // Intentar cargar data/links.json (si se sirve desde servidor). En archivos locales puede fallar por CORS/file://
 async function loadLinks(){
+  // helper: parse embedded JSON block if present
+  function tryEmbedded(){
+    try{
+      const el = document.getElementById('links-data');
+      if(el){
+        const text = el.textContent.trim();
+        console.log('[tryEmbedded] encontrado bloque JSON embebido, longitud=', text.length);
+        const json = JSON.parse(text);
+        if(Array.isArray(json)) LINKS = json;
+        return true;
+      }
+    }catch(err){
+      console.warn('No se pudo parsear el bloque de fallback JSON.', err);
+    }
+    return false;
+  }
+
   try{
+    console.log('[loadLinks] Intentando fetch de data/links.json');
     const res = await fetch('data/links.json');
     if(res.ok){
       const json = await res.json();
-      if(Array.isArray(json)) LINKS = json;
+      if(Array.isArray(json)){
+        LINKS = json;
+        console.log('[loadLinks] Cargado from data/links.json,', LINKS.length, 'enlaces');
+        return;
+      }
+    }
+
+    // si la respuesta no es OK, intentar el bloque embebido
+    console.warn('[loadLinks] Fetch data/links.json devolvió respuesta no-ok', res.status, res.statusText);
+    if(tryEmbedded()){
+      console.log('[loadLinks] Cargado desde bloque embebido (respuesta no-ok)');
+      return;
     }
   }catch(e){
     // silencioso: al trabajar localmente fetch puede fallar
-    console.warn('No se pudo cargar data/links.json localmente.', e);
+    console.warn('[loadLinks] No se pudo cargar data/links.json localmente.', e);
+    if(tryEmbedded()){
+      console.log('[loadLinks] Cargado desde bloque embebido (excepción fetch)');
+      return;
+    }
   }
+
+  // última oportunidad: si no se cargó nada, informar y continuar (LINKS puede estar vacío)
+  console.warn('[loadLinks] No se pudieron cargar enlaces desde data/links.json ni desde bloque embebido. LINKS length=', LINKS.length);
 }
 
 let filtered = [];
@@ -21,6 +59,8 @@ const grid = document.getElementById('links-grid');
 const searchInput = document.getElementById('search-input');
 const emptyState = document.getElementById('empty-state');
 const themeToggle = document.getElementById('theme-toggle');
+
+console.log('[app] elements:', {grid: !!grid, searchInput: !!searchInput, emptyState: !!emptyState, themeToggle: !!themeToggle});
 
 function renderPage(){
   const pageItems = filtered;
@@ -97,6 +137,7 @@ themeToggle.addEventListener('click', ()=>{
   const isDark = document.documentElement.classList.toggle('dark');
   themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  console.log('[theme] toggled, isDark=', isDark, 'classList=', document.documentElement.classList.value, 'localStorage.theme=', localStorage.getItem('theme'));
 });
 
 // Inicialización

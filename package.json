@@ -1,0 +1,12 @@
+{
+	"name": "enlaces_uned",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build:sass": "sass src/scss/main.scss dist/css/main.css --style=expanded",
+		"watch:sass": "sass --watch src/scss/main.scss:dist/css/main.css"
+	},
+	"devDependencies": {
+		"sass": "^1.78.0"
+	}
+}
