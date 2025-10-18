@@ -11,10 +11,10 @@ body{
 .container{
   max-width: $container-max;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem 1.5rem; /* ligeramente reducido verticalmente */
 }
 .site-header{
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* menos espacio bajo el header */
 }
 
 .topbar{
@@ -22,18 +22,84 @@ body{
   align-items:center;
   justify-content:space-between;
   gap: $gap;
+  flex-wrap: wrap; /* allow wrapping on narrow viewports */
 }
 
-.brand h1{margin:0;font-size:1.5rem}
-.brand .subtitle{margin:0;color:$muted}
+.brand h1{margin:0;font-size:1.4rem;line-height:1.05}
+.brand .subtitle{margin:0;color:$muted;font-size:0.95rem}
 
-.controls{display:flex;gap:.5rem;align-items:center}
+/* Enhanced title styling */
+.brand h1{
+  position: relative;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $text;
+  display: inline-block;
+  padding-left: 0.8rem;
+}
+.brand h1::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 6px;
+  background: linear-gradient(180deg, $primary, rgba(11,95,255,0.7));
+  border-radius: 3px;
+}
+
+/* Nav link reset & active */
+.main-nav{
+  display:flex;
+  gap: 1.25rem; /* más separación entre títulos */
+  align-items:center;
+  margin-bottom: 1rem; /* separa el nav del título */
+}
+.main-nav .nav-link,
+.main-nav .nav-link:link,
+.main-nav .nav-link:visited,
+.main-nav .nav-link:active,
+.main-nav .nav-link:focus{
+  color: $muted;
+  text-decoration: none;
+  outline: none;
+  padding: .45rem .65rem;
+  border-radius: 10px;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+  display:inline-flex;
+  align-items:center;
+  gap: .4rem;
+}
+.main-nav .nav-link:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(11,95,255,0.06);
+}
+.main-nav .nav-link:focus{
+  box-shadow: 0 0 0 4px rgba(11,95,255,0.12);
+}
+.main-nav .nav-link.active{
+  color: $primary;
+  font-weight: 700;
+  background: rgba(11,95,255,0.08);
+  padding: .6rem .9rem; /* un poco más grande */
+  border-radius: 14px; /* más redondeado */
+  box-shadow: 0 10px 28px rgba(11,95,255,0.10);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.controls{display:flex;gap:.5rem;align-items:center;flex: 0 1 auto; min-width: 0}
 
 .search{
   padding:.5rem .75rem;
   border-radius:8px;
   border:1px solid rgba(15,23,42,0.06);
-  min-width:200px;
+  /* make input wide enough to show the placeholder but responsive */
+  width: 36ch; /* generally fits placeholder 'Buscar en todas las secciones...' */
+  max-width: 100%;
+  min-width: 10ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .theme-toggle{

@@ -54,6 +54,7 @@ async function loadLinks(){
 }
 
 let filtered = [];
+const ADDITIONAL_DATA_FILES = ['data/links.json', 'data/travel-links.json'];
 
 const grid = document.getElementById('links-grid');
 const searchInput = document.getElementById('search-input');
@@ -74,11 +75,10 @@ function renderPage(){
   emptyState.hidden = true;
 
   pageItems.forEach(item => {
-    const a = document.createElement('a');
-    a.href = item.url;
-    a.className = 'link-card';
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
+  const a = document.createElement('a');
+  a.href = item.url;
+  a.className = 'link-card';
+  // open in same window by default (no target _blank)
     a.setAttribute('aria-label', item.title + (item.description ? ('. ' + item.description) : ''));
 
     const content = document.createElement('div');
@@ -120,7 +120,20 @@ function renderPage(){
 function applySearch(){
   const q = searchInput.value.trim().toLowerCase();
   if(!q) filtered = LINKS.slice();
-  else filtered = LINKS.filter(l => (l.title + ' ' + (l.description||'')).toLowerCase().includes(q));
+  else {
+    const isHome = (location.pathname || '').split('/').pop() === 'index.html' || (location.pathname || '') === '/';
+    if(isHome){
+      // load additional files and combine
+      Promise.all(ADDITIONAL_DATA_FILES.map(p => fetch(p).then(r => r.ok ? r.json() : []).catch(() => []))).then(arrs => {
+        let combined = LINKS.slice();
+        arrs.forEach(a => { if(Array.isArray(a)) combined = combined.concat(a); });
+        filtered = combined.filter(l => ((l.title || '') + ' ' + (l.description||'')).toLowerCase().includes(q));
+        renderPage();
+      });
+      return;
+    }
+    filtered = LINKS.filter(l => ((l.title || '') + ' ' + (l.description||'')).toLowerCase().includes(q));
+  }
   renderPage();
 }
 

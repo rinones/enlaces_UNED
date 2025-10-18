@@ -1,6 +1,11 @@
 (function(){
   // Versión simplificada para desplegar en GitHub Pages. Carga data/links.json y renderiza.
   var LINKS = [];
+  var filtered = [];
+  var gridEl = null;
+  var searchInputEl = null;
+  var emptyStateEl = null;
+  var ADDITIONAL_DATA_FILES = ['data/links.json', 'data/travel-links.json'];
 
   function loadLinks(){
     var path = (window && window.LINKS_PATH) ? window.LINKS_PATH : 'data/links.json';
@@ -16,20 +21,21 @@
   }
 
   function render(){
-    var grid = document.getElementById('links-grid');
-    var emptyState = document.getElementById('empty-state');
-    grid.innerHTML = '';
-    if(!LINKS || LINKS.length === 0){
-      emptyState.hidden = false;
+    gridEl = gridEl || document.getElementById('links-grid');
+    emptyStateEl = emptyStateEl || document.getElementById('empty-state');
+    if(!gridEl) return;
+    gridEl.innerHTML = '';
+    var pageItems = filtered || [];
+    if(!pageItems || pageItems.length === 0){
+      if(emptyStateEl) emptyStateEl.hidden = false;
       return;
     }
-    emptyState.hidden = true;
-    LINKS.forEach(function(item){
+    if(emptyStateEl) emptyStateEl.hidden = true;
+    pageItems.forEach(function(item){
       var a = document.createElement('a');
       a.href = item.url;
-      a.className = 'link-card';
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
+  a.className = 'link-card';
+  // Open links in the same window by default (no target _blank)
 
       var content = document.createElement('div');
       content.className = 'link-content';
@@ -60,7 +66,7 @@
       }
 
       a.appendChild(content);
-      grid.appendChild(a);
+      gridEl.appendChild(a);
     });
   }
 
@@ -82,7 +88,40 @@
   loadTheme();
   bindThemeToggle();
 
+  // bind search input if present
+  searchInputEl = document.getElementById('search-input');
+  if(searchInputEl){
+    searchInputEl.addEventListener('input', function(){
+      var q = (searchInputEl.value || '').trim().toLowerCase();
+      if(!q) filtered = LINKS.slice();
+      else {
+        // if we're on the home page (index.html), also load additional data files and search across all
+        var isHome = (location.pathname || '').split('/').pop() === 'index.html' || (location.pathname || '') === '/';
+        if(isHome){
+          // fetch additional files in parallel, then filter combined list
+          Promise.all(ADDITIONAL_DATA_FILES.map(function(p){
+            return fetch(p).then(function(r){ if(r.ok) return r.json(); return []; }).catch(function(){ return []; });
+          })).then(function(arrs){
+            var combined = (LINKS || []).slice();
+            arrs.forEach(function(a){ if(Array.isArray(a)) combined = combined.concat(a); });
+            filtered = combined.filter(function(l){
+              return ((l.title || '') + ' ' + (l.description || '')).toLowerCase().indexOf(q) !== -1;
+            });
+            render();
+          });
+        } else {
+          filtered = LINKS.filter(function(l){
+            return ((l.title || '') + ' ' + (l.description || '')).toLowerCase().indexOf(q) !== -1;
+          });
+          render();
+        }
+      }
+    });
+  }
+
   loadLinks().then(function(){
+    // initialize filtered list and render
+    filtered = Array.isArray(LINKS) ? LINKS.slice() : [];
     render();
     markActiveNav();
   });

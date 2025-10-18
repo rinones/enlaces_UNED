@@ -14,9 +14,21 @@
 
   <main class="container">
     <header class="site-header">
-      <div class="brand">
-        <h1>Enlaces - Inicio</h1>
-        <p class="subtitle">Selecciona una sección</p>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="uned.html" class="nav-link">UNED</a>
+        <a href="travel.html" class="nav-link">Viajes</a>
+      </nav>
+      <div class="topbar">
+        <div class="brand">
+          <h1>Inicio</h1>
+          <p class="subtitle">Selecciona una sección</p>
+        </div>
+
+        <div class="controls">
+          <input id="search-input" class="search" type="search" placeholder="Buscar en todas las secciones..." aria-label="Buscar enlaces">
+          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+        </div>
       </div>
     </header>
 
