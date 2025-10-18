@@ -68,9 +68,9 @@ body {
 /* Nav link reset & active */
 .main-nav {
   display: flex;
-  gap: 1.25rem; /* más separación entre títulos */
+  gap: 1.25rem;
   align-items: center;
-  margin-bottom: 1rem; /* separa el nav del título */
+  margin-bottom: 1rem;
 }
 
 /* left/right partitions inside nav */
@@ -87,13 +87,7 @@ body {
   align-items: center;
 }
 
-.main-nav .nav-link.external::after {
-  content: "↗";
-  font-size: 0.85em;
-  margin-left: 0.35rem;
-  opacity: 0.8;
-}
-
+/* Reusable base for nav links */
 .main-nav .nav-link,
 .main-nav .nav-link:link,
 .main-nav .nav-link:visited,
@@ -110,6 +104,14 @@ body {
   gap: 0.4rem;
 }
 
+/* External variant (right-side links) */
+.main-nav .nav-external .nav-link {
+  color: rgb(214.2, 102.48, 0);
+  background: transparent;
+  padding: 0.45rem 0.7rem;
+  border-radius: 12px;
+}
+
 .main-nav .nav-link:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 22px rgba(11, 95, 255, 0.06);
@@ -123,20 +125,13 @@ body {
   color: #0b5fff;
   font-weight: 700;
   background: rgba(11, 95, 255, 0.08);
-  padding: 0.6rem 0.9rem; /* un poco más grande */
-  border-radius: 14px; /* más redondeado */
+  padding: 0.6rem 0.9rem;
+  border-radius: 14px;
   box-shadow: 0 10px 28px rgba(11, 95, 255, 0.1);
   transform: translateY(-2px) scale(1.02);
 }
 
-/* External links (right side) visual treatment */
-.main-nav .nav-external .nav-link {
-  color: rgb(214.2, 102.48, 0);
-  background: transparent;
-  padding: 0.45rem 0.7rem;
-  border-radius: 12px;
-}
-
+/* Apply external variant to right-side links */
 .main-nav .nav-external .nav-link:hover {
   background: rgba(255, 122, 0, 0.08);
   color: #ff7a00;

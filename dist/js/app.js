@@ -134,11 +134,23 @@
       var path = (location.pathname || '').split('/').pop() || 'index.html';
       // normalizar: si es vacío tratar como index.html
       links.forEach(function(el){
-        var href = (el.getAttribute('href') || '').split('/').pop();
-        if(!href) href = 'index.html';
-        if(href === path || (path === '' && href === 'index.html')){
-          el.classList.add('active');
-        } else {
+        try{
+          var raw = el.getAttribute('href') || '';
+          // If the href is an absolute URL or a protocol-relative URL, skip marking it active
+          var url = new URL(raw, location.href);
+          if(url.origin !== location.origin){
+            el.classList.remove('active');
+            return;
+          }
+          var href = (url.pathname || '').split('/').pop();
+          if(!href) href = 'index.html';
+          if(href === path || (path === '' && href === 'index.html')){
+            el.classList.add('active');
+          } else {
+            el.classList.remove('active');
+          }
+        }catch(e){
+          // On error (malformed URL), fall back to simple behavior
           el.classList.remove('active');
         }
       });

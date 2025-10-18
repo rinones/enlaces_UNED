@@ -21,7 +21,8 @@
           <a href="travel.html" class="nav-link">Viajes</a>
         </div>
         <div class="nav-external">
-          <a href="https://sso.uned.es/sso/index.aspx?URL=http://www.uned.es/universidad/campus/" class="nav-link external" style="color:#e66d00;background:transparent;padding:.45rem .7rem;border-radius:12px;">Campus</a>
+          <a href="https://sso.uned.es/sso/index.aspx?URL=http://www.uned.es/universidad/campus/" class="nav-link external">Campus</a>
+          <a href="https://mail.google.com/" class="nav-link external" title="GMail">GMail</a>
         </div>
       </nav>
       <div class="topbar">
@@ -31,7 +32,17 @@
         </div>
 
         <div class="controls">
-          <input id="search-input" class="search" type="search" placeholder="Buscar enlaces..." aria-label="Buscar enlaces">
+          <input id="search-input" class="search" type="search" placeholder="Buscar en todas las secciones..." aria-label="Buscar enlaces">
+
+          <!-- Buscadores rápidos: Google y DuckDuckGo (igual que en index) -->
+          <form class="quick-search" action="https://www.google.com/search" method="GET" style="display:inline-block;margin-left:8px;">
+            <input id="q-google" name="q" type="search" placeholder="Buscar en Google" aria-label="Buscar en Google" class="search" style="width:26ch;max-width:calc(40vw);padding:.35rem .5rem;">
+          </form>
+
+          <form class="quick-search" action="https://duckduckgo.com/" method="GET" style="display:inline-block;margin-left:8px;">
+            <input id="q-ddg" name="q" type="search" placeholder="Buscar en DuckDuckGo" aria-label="Buscar in DuckDuckGo" class="search" style="width:26ch;max-width:calc(40vw);padding:.35rem .5rem;">
+          </form>
+
           <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
         </div>
       </div>
