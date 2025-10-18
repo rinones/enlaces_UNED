@@ -3,7 +3,8 @@
   var LINKS = [];
 
   function loadLinks(){
-    return fetch('data/links.json').then(function(res){
+    var path = (window && window.LINKS_PATH) ? window.LINKS_PATH : 'data/links.json';
+    return fetch(path).then(function(res){
       if(!res.ok) return [];
       return res.json();
     }).then(function(json){
@@ -83,5 +84,25 @@
 
   loadLinks().then(function(){
     render();
+    markActiveNav();
   });
+
+  // Marca el enlace del nav como activo comparando location.pathname
+  function markActiveNav(){
+    try{
+      var links = document.querySelectorAll('.main-nav .nav-link');
+      if(!links || !links.length) return;
+      var path = (location.pathname || '').split('/').pop() || 'index.html';
+      // normalizar: si es vacío tratar como index.html
+      links.forEach(function(el){
+        var href = (el.getAttribute('href') || '').split('/').pop();
+        if(!href) href = 'index.html';
+        if(href === path || (path === '' && href === 'index.html')){
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }catch(e){/* ignore */}
+  }
 })();

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enlaces - Viajes</title>
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+  <script>
+    // Indica al script distribuido qué fichero JSON cargar en esta página.
+    window.LINKS_PATH = 'data/travel-links.json';
+  </script>
+
+  <main class="container">
+    <header class="site-header">
+      <nav class="main-nav">
+        <a href="uned.html" class="nav-link">UNED</a>
+        <a href="travel.html" class="nav-link">Viajes</a>
+      </nav>
+      <div class="topbar">
+        <div class="brand">
+          <h1>Enlaces - Viajes</h1>
+          <p class="subtitle">Recursos y herramientas para viajar</p>
+        </div>
+
+        <div class="controls">
+          <input id="search-input" class="search" type="search" placeholder="Buscar enlaces..." aria-label="Buscar enlaces">
+          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div id="links-grid" class="grid" aria-live="polite">
+        <!-- Las tarjetas se renderizan con JS -->
+      </div>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <p>No hay enlaces. Añade algunos en el archivo de datos.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© Enlaces - Viajes</p>
+    </footer>
+  </main>
+
+  <script src="dist/js/app.js"></script>
+</body>
+
+</html>
+</html>
+

@@ -3,22 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Enlaces UNED</title>
+  <title>Enlaces - Inicio</title>
   <link rel="stylesheet" href="dist/css/main.css">
 </head>
 <body>
+  <script>
+    // Página principal que muestra enlaces a las subpáginas
+    window.LINKS_PATH = 'data/home-links.json';
+  </script>
+
   <main class="container">
     <header class="site-header">
-      <div class="topbar">
-        <div class="brand">
-          <h1>Enlaces UNED</h1>
-          <p class="subtitle">Cuadrícula de accesos rápidos</p>
-        </div>
-
-        <div class="controls">
-          <input id="search-input" class="search" type="search" placeholder="Buscar enlaces..." aria-label="Buscar enlaces">
-          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
-        </div>
+      <div class="brand">
+        <h1>Enlaces - Inicio</h1>
+        <p class="subtitle">Selecciona una sección</p>
       </div>
     </header>
 
@@ -28,12 +26,12 @@
       </div>
 
       <div id="empty-state" class="empty-state" hidden>
-        <p>No hay enlaces. Añade algunos en el archivo de datos o pegando la lista.</p>
+        <p>No hay enlaces. Añade algunos en el archivo de datos.</p>
       </div>
     </section>
 
     <footer class="site-footer">
-      <p>© UNED - Enlaces</p>
+      <p>© Enlaces</p>
     </footer>
   </main>
 

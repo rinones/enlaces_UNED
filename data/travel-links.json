@@ -1,0 +1,11 @@
+[
+  {
+    "title": "Rutas Andes",
+    "url": "https://www.andeshandbook.org/montanas_y_rutas",
+    "description": "Mapa interactivo estilo Google Maps",
+    "section": "Viajes",
+    "sectionColor": "#0D6EFD",
+    "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><circle cx='12' cy='12' r='10' fill='#EAF2FF'/><path d='M8 15l2-4 2 3 2-5 2 6' stroke='#0D6EFD' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+  }
+]
+

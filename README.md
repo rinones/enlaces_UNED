@@ -37,3 +37,19 @@ npm run build:sass
 
 Nota: para compatibilidad máxima con navegadores y GitHub Pages, `index.html` referencia el JS ya compilado en `dist/js/app.js` y el CSS en `dist/css/main.css`.
 
+Agregar nuevas páginas de enlaces
+---------------------------------
+
+Si quieres crear páginas separadas (por ejemplo `travel.html`) con su propio conjunto de enlaces, crea un nuevo HTML basado en `index.html` y antes de cargar `dist/js/app.js` añade:
+
+```html
+<script>
+	// apuntar al JSON que contiene los enlaces para esta página
+	window.LINKS_PATH = 'data/travel-links.json';
+</script>
+```
+
+Luego añade el fichero JSON (`data/travel-links.json`) con la misma estructura que `data/links.json`.
+
+Esto permite tener varias páginas estáticas en el mismo repositorio, cada una cargando su propio listado de enlaces.
+
