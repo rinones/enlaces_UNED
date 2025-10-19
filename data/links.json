@@ -25,4 +25,22 @@
 		"sectionColor": "#0AA5A1",
 		"icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='3' y='4' width='18' height='16' rx='2' fill='#E6F7F6'/><path d='M7 8h10M7 12h10M7 16h6' stroke='#0AA5A1' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>"
 	}
+
+,
+	{
+		"title": "Autoevaluacion PREDA",
+		"url": "https://ineda.lsi.uned.es/recursos/self-assessment/PREDA/",
+		"description": "Herramienta de autoevaluacion de la UNED",
+		"section": "PREDA",
+		"sectionColor": "#7C3AED",
+		"icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='2' y='3' width='20' height='18' rx='2' fill='#F3E8FF'/><path d='M7 9h10M7 13h6' stroke='#7C3AED' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+	},
+	{
+		"title": "Test 2012-2016",
+		"url": "https://www.daypo.com/uned-grado-superior-informatica-examenes-redes.html",
+		"description": "Herramienta de autoevaluacion test",
+		"section": "REDES",
+		"sectionColor": "#0AA5A1",
+		"icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><circle cx='12' cy='12' r='10' fill='#E6F7F6'/><path d='M8 12h8' stroke='#0AA5A1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+	}
 ]
