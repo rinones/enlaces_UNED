@@ -171,6 +171,22 @@ body {
   cursor: pointer;
 }
 
+/* Quick-search compact variant (used for the small search boxes next to main search) */
+.quick-search {
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.quick-search--compact { /* wrapper for compact quick-search */
+  margin-left: 0.5rem;
+}
+
+.search--compact { /* modifier for the input itself */
+  width: 26ch;
+  max-width: 40vw;
+  padding: 0.35rem 0.5rem;
+}
+
 /* Dark theme root */
 :root {
   --bg: #f5f7fb;
