@@ -1,14 +1,14 @@
 (function(){
-  // Versión simplificada para desplegar en GitHub Pages. Carga data/links.json y renderiza.
+  // Versión simplificada para desplegar en GitHub Pages. Carga data/uned-links.json y renderiza.
   var LINKS = [];
   var filtered = [];
   var gridEl = null;
   var searchInputEl = null;
   var emptyStateEl = null;
-  var ADDITIONAL_DATA_FILES = ['data/links.json', 'data/travel-links.json'];
+  var ADDITIONAL_DATA_FILES = ['data/uned-links.json', 'data/travel-links.json', 'data/home-links.json', 'data/content-links.json'];
 
   function loadLinks(){
-    var path = (window && window.LINKS_PATH) ? window.LINKS_PATH : 'data/links.json';
+  var path = (window && window.LINKS_PATH) ? window.LINKS_PATH : 'data/uned-links.json';
     return fetch(path).then(function(res){
       if(!res.ok) return [];
       return res.json();

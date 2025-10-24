@@ -1,9 +1,9 @@
-// Datos: puedes rellenar `data/links.json` con un array de objetos {title, url, description, icon}
+// Datos: puedes rellenar `data/uned-links.json` con un array de objetos {title, url, description, icon}
 let LINKS = [];
 
 console.log('[app] location=', location.href, 'protocol=', location.protocol);
 
-// Intentar cargar data/links.json (si se sirve desde servidor). En archivos locales puede fallar por CORS/file://
+// Intentar cargar el fichero apuntado por window.LINKS_PATH (por ejemplo 'data/uned-links.json'). En archivos locales puede fallar por CORS/file://
 async function loadLinks(){
   // helper: parse embedded JSON block if present
   function tryEmbedded(){
@@ -23,26 +23,26 @@ async function loadLinks(){
   }
 
   try{
-    console.log('[loadLinks] Intentando fetch de data/links.json');
-    const res = await fetch('data/links.json');
+  console.log('[loadLinks] Intentando fetch de data/uned-links.json');
+  const res = await fetch(window.LINKS_PATH || 'data/uned-links.json');
     if(res.ok){
       const json = await res.json();
       if(Array.isArray(json)){
         LINKS = json;
-        console.log('[loadLinks] Cargado from data/links.json,', LINKS.length, 'enlaces');
+  console.log('[loadLinks] Cargado from', window.LINKS_PATH || 'data/uned-links.json,', LINKS.length, 'enlaces');
         return;
       }
     }
 
     // si la respuesta no es OK, intentar el bloque embebido
-    console.warn('[loadLinks] Fetch data/links.json devolvió respuesta no-ok', res.status, res.statusText);
+  console.warn('[loadLinks] Fetch de', window.LINKS_PATH || 'data/uned-links.json', 'devolvió respuesta no-ok', res.status, res.statusText);
     if(tryEmbedded()){
       console.log('[loadLinks] Cargado desde bloque embebido (respuesta no-ok)');
       return;
     }
   }catch(e){
     // silencioso: al trabajar localmente fetch puede fallar
-    console.warn('[loadLinks] No se pudo cargar data/links.json localmente.', e);
+  console.warn('[loadLinks] No se pudo cargar', window.LINKS_PATH || 'data/uned-links.json', 'localmente.', e);
     if(tryEmbedded()){
       console.log('[loadLinks] Cargado desde bloque embebido (excepción fetch)');
       return;
@@ -50,11 +50,12 @@ async function loadLinks(){
   }
 
   // última oportunidad: si no se cargó nada, informar y continuar (LINKS puede estar vacío)
-  console.warn('[loadLinks] No se pudieron cargar enlaces desde data/links.json ni desde bloque embebido. LINKS length=', LINKS.length);
+  console.warn('[loadLinks] No se pudieron cargar enlaces desde', window.LINKS_PATH || 'data/uned-links.json', 'ni desde bloque embebido. LINKS length=', LINKS.length);
 }
 
 let filtered = [];
-const ADDITIONAL_DATA_FILES = ['data/links.json', 'data/travel-links.json'];
+// ADDITIONAL_DATA_FILES contiene ficheros a combinar en la búsqueda desde la página principal
+const ADDITIONAL_DATA_FILES = ['data/uned-links.json', 'data/travel-links.json', 'data/home-links.json', 'data/content-links.json'];
 
 const grid = document.getElementById('links-grid');
 const searchInput = document.getElementById('search-input');

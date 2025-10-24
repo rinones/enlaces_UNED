@@ -29,7 +29,7 @@ npm install
 npm run build:sass
 ```
 
-2. Asegúrate de que `data/links.json` contiene tus enlaces.
+2. Asegúrate de que `data/uned-links.json` contiene tus enlaces (archivo específico para la página UNED).
 
 3. Sube todo el repositorio a GitHub y en Settings -> Pages selecciona la rama `main` y la carpeta `/` (o `/docs` si prefieres).
 
@@ -49,7 +49,7 @@ Si quieres crear páginas separadas (por ejemplo `travel.html`) con su propio co
 </script>
 ```
 
-Luego añade el fichero JSON (`data/travel-links.json`) con la misma estructura que `data/links.json`.
+Luego añade el fichero JSON (`data/travel-links.json`) con la misma estructura que `data/uned-links.json`.
 
 Esto permite tener varias páginas estáticas en el mismo repositorio, cada una cargando su propio listado de enlaces.
 
