@@ -1,5 +1,13 @@
 [
   {
+    "title": "Contenido",
+    "url": "contenido.html",
+    "description": "Películas, series, videojuegos y webs",
+    "section": "Sitios",
+    "sectionColor": "#7C3AED",
+    "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='3' y='5' width='18' height='12' rx='3' fill='#F3E8FF'/><path d='M8 12h8' stroke='#7C3AED' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+  },
+  {
     "title": "UNED",
     "url": "uned.html",
     "description": "Enlaces de la UNED",
@@ -14,14 +22,5 @@
     "section": "Sitios",
     "sectionColor": "#0D6EFD",
     "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><circle cx='12' cy='12' r='10' fill='#EAF2FF'/><path d='M7 12h10' stroke='#0D6EFD' stroke-width='1.6' stroke-linecap='round'/></svg>"
-  }
- ,
-  {
-    "title": "Contenido",
-    "url": "contenido.html",
-    "description": "Películas, series, videojuegos y webs",
-    "section": "Sitios",
-    "sectionColor": "#7C3AED",
-    "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='3' y='5' width='18' height='12' rx='3' fill='#F3E8FF'/><path d='M8 12h8' stroke='#7C3AED' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
   }
 ]
