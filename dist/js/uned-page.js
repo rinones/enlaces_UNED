@@ -133,7 +133,29 @@ export function initUnedPage(){
       });
     });
   }
-  function renderAll(){ if(titleEl) titleEl.textContent = selected ? ('UNED · '+selected.toUpperCase()) : 'UNED'; if(subtitleEl) subtitleEl.textContent = selected ? 'Vista específica de asignatura' : 'Vista general y selector de asignaturas'; if(upcomingTitleEl) upcomingTitleEl.textContent = selected ? ('Próximas actividades ('+selected.toUpperCase()+')') : 'Próximas actividades (Todas)'; renderSelector(); (selected?loadUpcomingFor(selected):loadAllUpcoming()).then(upc=>{ if(!upcomingEl) return; upcomingEl.innerHTML=''; if(!upc||!upc.length){ if(upcomingEmptyEl) upcomingEmptyEl.hidden=false; return; } if(upcomingEmptyEl) upcomingEmptyEl.hidden=true; upc.forEach(item=>{ const li=document.createElement('li'); li.className='upcoming-item'; const date=document.createElement('span'); date.className='upcoming-date'; date.textContent=formatDateShort(item.date); li.appendChild(date); if(item.link){ const a=document.createElement('a'); a.className='upcoming-link'; a.href=item.link; a.textContent=item.title; li.appendChild(a);} else { const s=document.createElement('span'); s.textContent=item.title; li.appendChild(s);} upcomingEl.appendChild(li); }); }); loadCommonLinks(); if(selected){ loadSubjectLinks(selected); } else { clearSubjectLinks(); } clearExtras(); if(selected==='redes'){ /* placeholder for subject-specific extras */ }
+  function renderAll(){
+    if(titleEl) titleEl.textContent = selected ? ('UNED · '+selected.toUpperCase()) : 'UNED';
+    if(subtitleEl) subtitleEl.textContent = selected ? 'Vista específica de asignatura' : 'Vista general y selector de asignaturas';
+    if(upcomingTitleEl) upcomingTitleEl.textContent = selected ? ('Próximas actividades ('+selected.toUpperCase()+')') : 'Próximas actividades (Todas)';
+    renderSelector();
+    (selected?loadUpcomingFor(selected):loadAllUpcoming()).then(upc=>{
+      if(!upcomingEl) return; upcomingEl.innerHTML='';
+      if(!upc||!upc.length){ if(upcomingEmptyEl) upcomingEmptyEl.hidden=false; return; }
+      if(upcomingEmptyEl) upcomingEmptyEl.hidden=true;
+      upc.forEach(item=>{
+        const li=document.createElement('li'); li.className='upcoming-item';
+        const date=document.createElement('span'); date.className='upcoming-date'; date.textContent=formatDateShort(item.date); li.appendChild(date);
+
+        const makeTitleNode = (text, href)=>{ const el = href ? document.createElement('a') : document.createElement('span'); if(href) el.className='upcoming-link'; el.textContent = text; return el; };
+        const titleNode = makeTitleNode(item.title, item.link);
+        if(item.important){ const wrap = document.createElement('span'); wrap.className='important-blink'; wrap.appendChild(titleNode); li.classList.add('upcoming-important'); li.appendChild(wrap); }
+        else { li.appendChild(titleNode); }
+
+        upcomingEl.appendChild(li);
+      });
+    });
+    loadCommonLinks(); if(selected){ loadSubjectLinks(selected); } else { clearSubjectLinks(); }
+    clearExtras(); if(selected==='redes'){ /* placeholder for subject-specific extras */ }
   }
   fetchJSON('data/uned-subjects.json').then(json=>{ subjects=Array.isArray(json)?json:[]; renderAll(); window.addEventListener('hashchange', ()=>{ selected=parseSel(); renderAll(); }); });
 }

@@ -489,6 +489,28 @@ html.dark .redes-panel {
 }
 
 /* Subject-specific styles for REDES */
+/* Important appointment highlight (blinking red background) */
+@keyframes blink-red {
+  0%, 100% {
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.35);
+  }
+}
+.important-blink {
+  animation: blink-red 1s ease-in-out infinite;
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  color: var(--text);
+}
+
+/* Ensure upcoming items can show the same highlight when marked important */
+.upcoming-item.upcoming-important .important-blink,
+.upcoming-item .important-blink {
+  display: inline-block;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -707,176 +729,6 @@ html.dark .link-desc {
     height: auto;
   }
 }
-/* Header de calendario */
-.calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.calendar-header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
-.calendar-header .nav-btn {
-  background: transparent;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  font-size: 1.25rem;
-  color: #6b7280;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.calendar-header .nav-btn:hover {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-/* Rejilla del calendario */
-.calendar .weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
-  margin-bottom: 8px;
-}
-
-.calendar .weekdays div {
-  text-align: center;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 8px 0;
-}
-
-.calendar .weeks {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
-}
-
-.calendar .day {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-  min-height: 90px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.calendar .day.muted {
-  opacity: 0.45;
-}
-
-.calendar .day .day-number {
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.calendar .day .notes {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.calendar .day .note-pill {
-  background: rgba(11, 95, 255, 0.08);
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 0.85rem;
-  color: var(--text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Día marcado (evento fijo por código) */
-.calendar .day.event-highlight {
-  background: linear-gradient(180deg, #102131 0%, #0f2a3a 100%);
-  color: #eef6ff;
-  border-radius: 10px;
-}
-
-.calendar .day.event-highlight .note-pill {
-  background: transparent;
-  color: #eef6ff;
-}
-
-/* Login overlay (simple, sin reset global) */
-.login-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 80;
-}
-
-.login-overlay .login-panel {
-  width: min(420px, 96%);
-  background: var(--card);
-  border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
-  padding: 18px;
-  text-align: center;
-}
-
-.login-overlay .login-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.login-overlay input[type=password] {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: transparent;
-  color: var(--text);
-}
-
-.login-overlay .login-actions {
-  margin-top: 12px;
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.login-overlay .login-error {
-  color: #ef4444;
-  min-height: 18px;
-}
-
-.btn {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: transparent;
-  cursor: pointer;
-}
-
-.btn.primary {
-  background: #0b5fff;
-  color: white;
-  border-color: transparent;
-}
-
-.hidden {
-  display: none !important;
-}
-
-@media (max-width: 600px) {
-  .calendar .day {
-    min-height: 80px;
-    padding: 8px;
-  }
-}
 /* Estilos adicionales rápidos */
 header.site-header h1 {
   margin: 0;
@@ -885,13 +737,13 @@ header.site-header h1 {
 
 header.site-header p {
   margin: 0.25rem 0 0;
-  color: #6b7280;
+  color: var(--muted);
 }
 
 /* Estado cuando no hay enlaces */
 .empty-state {
   text-align: center;
-  color: #6b7280;
+  color: var(--muted);
   padding: 3rem 0;
 }
 
@@ -953,7 +805,7 @@ header.site-header p {
   width: 45px;
   height: 28px; /* altura uniforme */
   padding: 2px 6px;
-  font-size: 12px; /* sólo cambiar tamaño de letra para ajustar etiquetas */
+  font-size: 11px; /* sólo cambiar tamaño de letra para ajustar etiquetas */
   cursor: pointer;
   border-radius: 3px;
   border: 1px solid #111;
@@ -1014,20 +866,6 @@ header.site-header p {
 #uned-subject-selector .btn-rect-custom:focus {
   outline: 3px solid rgba(255, 255, 255, 0.12);
   outline-offset: 2px;
-}
-
-/* Force the main panel with the three subject buttons into the 3rd column
-   of the parent grid (mega-sections). On small screens, allow it to span
-   full width (stack). */
-#uned-subject-selector .panel-principal {
-  grid-column: 3;
-}
-
-@media (max-width: 880px) {
-  #uned-subject-selector .panel-principal {
-    grid-column: auto;
-    width: 100%;
-  }
 }
 
 /*# sourceMappingURL=main.css.map */

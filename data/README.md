@@ -20,11 +20,6 @@ This file documents the JSON formats used under `data/` for activities and calen
 If neither `pages` nor `page` is provided the activity is treated as global and may be shown on any page. For subject files, the file slug indicates the subject; you can also include `subject` inside items for clarity.
 
 
-## `data/calendar.json`
-Used by the calendar module to seed localStorage notes and provide a default starting month/year.
-Schema:
-- `events`: array of objects with `date` (YYYY-MM-DD), `text` (string), `link` (string, optional), and optional `pages`/`page` as above.
-- `start`: object with `year` (number) and `month` (0-based month number: 0=Jan, 11=Dec). Example: `{ "year": 2025, "month": 9 }` for October 2025.
 
 
 ## Page keys

@@ -1,10 +1,10 @@
 # enlaces
 
- Sitio estático de enlaces con varias secciones (Home, UNED, Viajes, Calendario, Contenido). Ahora optimizado y organizado en módulos JS (ES modules) y datos JSON modulares.
+ Sitio estático de enlaces con varias secciones (Home, UNED, Viajes, Contenido). Ahora optimizado y organizado en módulos JS (ES modules) y datos JSON modulares.
 
 Qué cambió (optimización de estructura):
  - Código JS en módulos (ESM) bajo `dist/js/` y un punto de entrada único `dist/js/main.js`:
-   - `utils.js` (DOM + helpers), `theme.js`, `nav.js`, `links.js`, `notices.js`, `upcoming.js`, `uned-page.js`, `calendar.js`.
+  - `utils.js` (DOM + helpers), `theme.js`, `nav.js`, `links.js`, `notices.js`, `upcoming.js`, `uned-page.js`.
    - Las páginas HTML cargan: `<script type="module" src="dist/js/main.js"></script>`.
  - Datos JSON modulares organizados por dominio:
    - `data/links/{home,travel,content}.json`
@@ -13,7 +13,7 @@ Qué cambió (optimización de estructura):
  - Compatibilidad: se soportan también `data/links.json` (índice unificado) y los ficheros antiguos `data/*-links.json` | `data/*-activities.json` como fallback.
 
 Estructura relevante:
-- index.html, uned.html, travel.html, calendar.html, contenido.html
+ - index.html, uned.html, travel.html, contenido.html
 - data/: ficheros JSON con enlaces y actividades
 - assets/: iconos e imágenes
 - src/scss/: estilos fuente (parciales + `main.scss`)
@@ -60,9 +60,7 @@ npm run build:sass
 
 Calendario
 ----------
-- `calendar.html` muestra un calendario mensual con “notas” almacenadas en `localStorage` (`notes:YYYY-MM-DD`).
-- Acceso simple: se guarda un hash SHA-256 en `localStorage` (`calendar:pwdHash`). Por defecto se inicializa con la contraseña `freecalendar` (puedes cambiarla borrando el hash y volviendo a entrar).
-- Las actividades guardadas aquí se tienen en cuenta por el panel de “Próximas actividades” de otras páginas (salvo que `UPCOMING_ONLY_FILE` sea `true`).
+Nota: la página del calendario ha sido removida en esta migración; las actividades deben definirse en `data/activities/*` para que aparezcan en los paneles "Próximas actividades".
 
 Publicación en GitHub Pages
 ---------------------------
