@@ -1,10 +1,22 @@
 # enlaces
 
- Sitio estático de enlaces con varias secciones (Home, UNED, Viajes, Calendario, Contenido). Ahora optimizado y organizado en módulos JS (ES modules) y datos JSON modulares.
+Sitio estático de enlaces con varias secciones (Home, UNED, Viajes, Calendario, Contenido). Ahora optimizado y organizado en módulos JS (ES modules) y datos JSON modulares.
+
+## ✨ Características
+
+- 🎨 **Modo claro/oscuro** con persistencia
+- 🔍 **Búsqueda global** con debouncing para mejor rendimiento
+- 📱 **Diseño responsive** optimizado para móviles
+- ⚡ **PWA (Progressive Web App)** con soporte offline
+- ⌨️ **Atajos de teclado** para navegación rápida
+- 📊 **Estadísticas de uso** para rastrear enlaces más utilizados
+- ♿ **Accesibilidad mejorada** con ARIA labels
+- 🎭 **Animaciones suaves** para mejor UX
+- 📦 **Arquitectura modular** con ES6 modules
 
 Qué cambió (optimización de estructura):
  - Código JS en módulos (ESM) bajo `dist/js/` y un punto de entrada único `dist/js/main.js`:
-   - `utils.js` (DOM + helpers), `theme.js`, `nav.js`, `links.js`, `notices.js`, `upcoming.js`, `uned-page.js`, `calendar.js`.
+   - `utils.js` (DOM + helpers), `theme.js`, `nav.js`, `links.js`, `notices.js`, `upcoming.js`, `uned-page.js`, `calendar.js`, `stats.js`, `keyboard.js`.
    - Las páginas HTML cargan: `<script type="module" src="dist/js/main.js"></script>`.
  - Datos JSON modulares organizados por dominio:
    - `data/links/{home,travel,content}.json`
@@ -19,6 +31,17 @@ Estructura relevante:
 - src/scss/: estilos fuente (parciales + `main.scss`)
 - dist/css/main.css: CSS compilado
 - dist/js/: módulos JS (entrypoint `main.js`)
+- sw.js: Service Worker para soporte offline
+- manifest.json: Manifiesto PWA
+
+## ⌨️ Atajos de teclado
+
+- `/` - Enfocar búsqueda
+- `t` - Cambiar tema (claro/oscuro)
+- `h` - Ir a inicio
+- `u` - Ir a UNED
+- `c` - Ir a calendario
+- `Esc` - Limpiar búsqueda
 
 Uso rápido
 ---------

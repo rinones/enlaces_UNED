@@ -1,4 +1,5 @@
 import { $, fetchJSON, getByKeyPath, inferLinksKeyFromPath, debounce } from './utils.js';
+import { trackLinkClick } from './stats.js';
 
 let LINKS = [];
 let UNIFIED_LINKS_CACHE = null; // from data/links.json when used as index
@@ -18,27 +19,81 @@ function pathFromKey(key){
   return null;
 }
 
-export function loadLinks(){
-  const explicitPath = (window && window.LINKS_PATH) ? String(window.LINKS_PATH) : null; // legacy override
+/**
+ * Loads links data from modular or unified sources
+ * @returns {Promise<void>}
+ */
+export function loadLinks() {
+  const explicitPath = (window && window.LINKS_PATH) ? String(window.LINKS_PATH) : null;
   const key = (window && window.LINKS_KEY) ? String(window.LINKS_KEY) : inferLinksKeyFromPath();
   const modularPath = pathFromKey(key);
   const tryModular = modularPath ? fetchJSON(modularPath) : Promise.resolve(null);
-  return tryModular.then(json=>{
-    if(Array.isArray(json)) { LINKS=json; return; }
+  
+  // Show loading state
+  showLoadingState();
+  
+  return tryModular.then(json => {
+    if (Array.isArray(json)) {
+      LINKS = json;
+      hideLoadingState();
+      return;
+    }
     // fallback to unified links.json as index
-    return fetchJSON('data/links.json').then(idx=>{
-      if(Array.isArray(idx)) { UNIFIED_LINKS_CACHE=null; LINKS=idx; return; }
-      if(idx && typeof idx==='object'){
+    return fetchJSON('data/links.json').then(idx => {
+      if (Array.isArray(idx)) {
+        UNIFIED_LINKS_CACHE = null;
+        LINKS = idx;
+        hideLoadingState();
+        return;
+      }
+      if (idx && typeof idx === 'object') {
         UNIFIED_LINKS_CACHE = idx;
         const arr = getByKeyPath(idx, key);
         LINKS = Array.isArray(arr) ? arr : [];
+        hideLoadingState();
         return;
       }
       // fallback to legacy explicit path or old defaults
       const legacy = explicitPath || 'data/uned-links.json';
-      return fetchJSON(legacy).then(arr=>{ LINKS = Array.isArray(arr)?arr:[]; });
+      return fetchJSON(legacy).then(arr => {
+        LINKS = Array.isArray(arr) ? arr : [];
+        hideLoadingState();
+      });
     });
+  }).catch(error => {
+    console.error('Error loading links:', error);
+    showErrorState('No se pudieron cargar los enlaces. Por favor, intenta recargar la página.');
+    hideLoadingState();
   });
+}
+
+/**
+ * Shows loading state in the grid
+ */
+function showLoadingState() {
+  const grid = $('#links-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = '<div class="loading-state" aria-live="polite">Cargando enlaces...</div>';
+}
+
+/**
+ * Hides loading state
+ */
+function hideLoadingState() {
+  const loading = document.querySelector('.loading-state');
+  if (loading) loading.remove();
+}
+
+/**
+ * Shows error state with message
+ * @param {string} message - Error message to display
+ */
+function showErrorState(message) {
+  const grid = $('#links-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = `<div class="error-state" role="alert">${message}</div>`;
 }
 
 /**
@@ -76,6 +131,11 @@ function createLinkCard(item) {
   a.href = item.url;
   a.className = 'link-card';
   a.setAttribute('aria-label', (item.title || '') + (item.description ? ('. ' + item.description) : ''));
+  
+  // Track clicks
+  a.addEventListener('click', () => {
+    trackLinkClick(item.url, item.title);
+  });
   
   const content = document.createElement('div');
   content.className = 'link-content';
