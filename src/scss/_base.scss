@@ -324,3 +324,22 @@ html.dark .redes-panel{ background: var(--card); box-shadow:none }
 .redes-notes ul{ margin:.2rem 0 0 1.1rem; padding:0; }
 .redes-notes li{ margin:.25rem 0; }
 /* Subject-specific styles for REDES */
+
+/* Important appointment highlight (blinking red background) */
+@keyframes blink-red {
+  0%, 100% { background-color: rgba(255,0,0,0.10); }
+  50% { background-color: rgba(255,0,0,0.35); }
+}
+
+.important-blink{
+  animation: blink-red 1s ease-in-out infinite;
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  color: var(--text);
+}
+
+/* Ensure upcoming items can show the same highlight when marked important */
+.upcoming-item.upcoming-important .important-blink,
+.upcoming-item .important-blink{
+  display: inline-block;
+}

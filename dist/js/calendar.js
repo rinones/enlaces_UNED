@@ -8,7 +8,7 @@ function addDefaultEvents(cfg){
   // Use events from cfg if provided; otherwise don't seed any events here.
   // Rationale: avoid duplicating data in JS — the canonical source is data/calendar.json.
   const events = (cfg && Array.isArray(cfg.events)) ? cfg.events : [];
-  events.forEach(ev=>{
+      events.forEach(ev=>{
     const dKey = ev.date;
     const storageKey = 'notes:'+dKey;
     try{
@@ -19,19 +19,20 @@ function addDefaultEvents(cfg){
         let migrated = false;
         arr.forEach(item=>{
           try{
-            if(item && item.text===String(ev.text||'Aviso') && !item.pages && !item.page && !item.subject){
-              if(ev.pages) item.pages = ev.pages;
-              if(ev.page) item.page = ev.page;
-              if(ev.subject) item.subject = ev.subject;
-              migrated = true;
-            }
+                if(item && item.text===String(ev.text||'Aviso') && !item.pages && !item.page && !item.subject){
+                  if(ev.pages) item.pages = ev.pages;
+                  if(ev.page) item.page = ev.page;
+                  if(ev.subject) item.subject = ev.subject;
+                  if(typeof ev.important !== 'undefined') item.important = !!ev.important;
+                  migrated = true;
+                }
           }catch(_){ }
         });
         if(migrated) localStorage.setItem(storageKey, JSON.stringify(arr));
         const found = arr.some(n=>n.text===String(ev.text||'Aviso'));
         if(!found){ arr.unshift({text:String(ev.text||'Aviso'), link:ev.link||'', pages: ev.pages||undefined, page: ev.page||undefined, subject: ev.subject||undefined, created:Date.now()}); localStorage.setItem(storageKey, JSON.stringify(arr)); }
       } else {
-        const arr = [{text: String(ev.text||'Aviso'), link: ev.link||'', pages: ev.pages||undefined, page: ev.page||undefined, subject: ev.subject||undefined, created: Date.now()}];
+        const arr = [{text: String(ev.text||'Aviso'), link: ev.link||'', pages: ev.pages||undefined, page: ev.page||undefined, subject: ev.subject||undefined, important: !!ev.important, created: Date.now()}];
         localStorage.setItem(storageKey, JSON.stringify(arr));
       }
     }catch(_){ }

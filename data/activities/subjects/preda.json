@@ -1,1 +1,17 @@
-[]
+[
+	{
+		"date": "2025-11-13",
+		"text": "Tutoría obligatoria PREDA — 11:00 (hora México)",
+		"link": "",
+		"pages": ["uned", "home"],
+		"subject": "preda",
+		"important": true
+	},
+	{
+		"date": "2025-12-18",
+		"text": "Fecha límite entrega PEC1 PREDA",
+		"link": "",
+		"pages": ["uned", "home"],
+		"subject": "preda"
+	}
+]
