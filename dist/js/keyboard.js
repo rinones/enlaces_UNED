@@ -4,6 +4,7 @@
  */
 
 import { $ } from './utils.js';
+import { toast } from './toast.js';
 
 const shortcuts = {
   '/': () => {
@@ -12,12 +13,17 @@ const shortcuts = {
     if (search) {
       search.focus();
       search.select();
+      toast.info('Búsqueda activada', { duration: 1500 });
     }
   },
   't': () => {
     // Toggle theme
     const themeBtn = $('#theme-toggle');
-    if (themeBtn) themeBtn.click();
+    if (themeBtn) {
+      themeBtn.click();
+      const isDark = document.documentElement.classList.contains('dark');
+      toast.success(`Tema ${isDark ? 'oscuro' : 'claro'} activado`, { duration: 1500 });
+    }
   },
   'h': () => {
     // Go to home
@@ -37,6 +43,7 @@ const shortcuts = {
     if (search && search.value) {
       search.value = '';
       search.dispatchEvent(new Event('input'));
+      toast.info('Búsqueda limpiada', { duration: 1500 });
     }
   }
 };
