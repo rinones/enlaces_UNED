@@ -1,4 +1,3 @@
-@import 'variables';
 @import 'base';
 @import 'grid';
 @import 'notices';
@@ -11,3 +10,6 @@ header.site-header p{margin:.25rem 0 0;color:$muted}
 
 /* Estado cuando no hay enlaces */
 .empty-state{ text-align:center;color:$muted;padding:3rem 0}
+
+/* Import botonera partial (component styles) */
+@import 'botonera';

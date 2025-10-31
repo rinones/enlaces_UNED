@@ -1,5 +1,5 @@
 import { loadTheme, bindThemeToggle } from './theme.js';
-import { markActiveNav, enhanceNavDropdowns, buildUnedDropdown } from './nav.js';
+import { markActiveNav } from './nav.js';
 import { loadLinks, renderLinks, bindSearch, renderCommonLinksIfPresent } from './links.js';
 import { NOTICES } from './notices.js';
 import { initUpcoming } from './upcoming.js';
@@ -10,8 +10,7 @@ function init(){
   loadTheme();
   bindThemeToggle();
   markActiveNav();
-  enhanceNavDropdowns();
-  buildUnedDropdown();
+  // Dropdown UNED eliminado de la barra de navegación
   // Links + search
   loadLinks().then(()=>{ renderLinks(); bindSearch(); });
   // Notices

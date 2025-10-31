@@ -2,9 +2,5 @@
   {
     "id": "notice-1",
     "html": "<div class=\"notice-media\"><img src=\"assets/icons/anki_pro_max.gif\" alt=\"Anuncio retro\" style=\"max-width:100%;height:auto;display:block;margin:0 auto;\"/></div>"
-  },
-  {
-    "id": "notice-2",
-    "html": "<div class=\"notice-media\"><img src=\"assets/icons/anki_pro_max.gif\" alt=\"Anuncio retro\" style=\"max-width:100%;height:auto;display:block;margin:0 auto;\"/></div>"
   }
 ]

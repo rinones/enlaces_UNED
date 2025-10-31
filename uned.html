@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UNED</title>
   <link rel="stylesheet" href="dist/css/main.css">
+  <!-- Nota: los estilos de la botonera han sido movidos a `src/components/botonera/styles.scss`.
+    No compilo SCSS aquí; por eso no enlazo ningún CSS específico de botonera. -->
 </head>
 <body>
   <main class="container">
@@ -12,12 +14,7 @@
       <nav class="main-nav">
         <div class="nav-left">
           <a href="index.html" class="nav-link">Home</a>
-          <div class="dropdown" data-menu="uned">
-            <a href="uned.html" class="nav-link dropdown-toggle" aria-expanded="false">UNED</a>
-            <div class="dropdown-menu mega-menu">
-              <div class="mega-sections" aria-live="polite"></div>
-            </div>
-          </div>
+          <a href="uned.html" class="nav-link">UNED</a>
           <a href="travel.html" class="nav-link">Viajes</a>
           <a href="calendar.html" class="nav-link">Calendario</a>
           <a href="contenido.html" class="nav-link">Contenido</a>
@@ -40,10 +37,130 @@
         </div>
       </div>
     </header>
-    <!-- Selector de asignaturas (por curso y cuatrimestre) -->
+    <!-- Selector de asignaturas (reemplazado por la botonera) -->
     <section>
       <h2>Asignaturas</h2>
-      <div id="uned-subject-selector" class="mega-sections" aria-live="polite"></div>
+      <div id="uned-subject-selector" class="mega-sections" aria-live="polite">
+        <!-- Botonera integrada: sólo 3 botones tendrán siglas y comportamiento -->
+        <div class="panel-principal">
+          <div class="grupo-fila">
+            <div class="indicadores-fila fila-layout">
+              <div class="indicador-led" data-led-id="r1-c1"></div>
+              <div class="indicador-led" data-led-id="r1-c2"></div>
+              <div class="indicador-led" data-led-id="r1-c3"></div>
+              <div class="indicador-led" data-led-id="r1-c4"></div>
+              <div class="indicador-led" data-led-id="r1-c5"></div>
+              <div class="indicador-led" data-led-id="r1-c6"></div>
+              <div class="indicador-led" data-led-id="r1-c7"></div>
+              <div class="indicador-led" data-led-id="r1-c8"></div>
+            </div>
+            <div class="fila-botonera fila-layout">
+                <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c1"></button>
+                <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c2" data-subject="eped">EPED</button>
+                <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c3" data-subject="preda">PREDA</button>
+              <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c4"></button>
+              <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c5"></button>
+              <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c6"></button>
+              <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c7"></button>
+              <button type="button" class="btn-rect-custom btn-red" data-btn-id="r1-c8"></button>
+            </div>
+          </div>
+
+          <!-- Resto de filas: visuales, sin siglas ni comportamiento -->
+          <div class="grupo-fila">
+            <div class="indicadores-fila fila-layout">
+              <div class="indicador-led" data-led-id="r2-c1"></div>
+              <div class="indicador-led" data-led-id="r2-c2"></div>
+              <div class="indicador-led" data-led-id="r2-c3"></div>
+              <div class="indicador-led" data-led-id="r2-c4"></div>
+              <div class="indicador-led" data-led-id="r2-c5"></div>
+              <div class="indicador-led" data-led-id="r2-c6"></div>
+              <div class="indicador-led" data-led-id="r2-c7"></div>
+              <div class="indicador-led" data-led-id="r2-c8"></div>
+            </div>
+            <div class="fila-botonera fila-layout">
+                <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c1"></button>
+                <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c2"></button>
+                <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c3" data-subject="ic2">IC2</button>
+              <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c4"></button>
+              <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c5"></button>
+              <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c6"></button>
+              <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c7"></button>
+              <button type="button" class="btn-rect-custom btn-blue" data-btn-id="r2-c8"></button>
+            </div>
+          </div>
+
+          <div class="grupo-fila">
+            <div class="indicadores-fila fila-layout">
+              <div class="indicador-led" data-led-id="r3-c1"></div>
+              <div class="indicador-led" data-led-id="r3-c2"></div>
+              <div class="indicador-led" data-led-id="r3-c3"></div>
+              <div class="indicador-led" data-led-id="r3-c4"></div>
+              <div class="indicador-led" data-led-id="r3-c5"></div>
+              <div class="indicador-led" data-led-id="r3-c6"></div>
+              <div class="indicador-led" data-led-id="r3-c7"></div>
+              <div class="indicador-led" data-led-id="r3-c8"></div>
+            </div>
+            <div class="fila-botonera fila-layout">
+                <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c1"></button>
+                <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c2"></button>
+                <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c3" data-subject="redes">REDES</button>
+              <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c4"></button>
+              <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c5"></button>
+              <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c6"></button>
+              <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c7"></button>
+              <button type="button" class="btn-rect-custom btn-yellow" data-btn-id="r3-c8"></button>
+            </div>
+          </div>
+
+          <div class="grupo-fila">
+            <div class="indicadores-fila fila-layout">
+              <div class="indicador-led" data-led-id="r4-c1"></div>
+              <div class="indicador-led" data-led-id="r4-c2"></div>
+              <div class="indicador-led" data-led-id="r4-c3"></div>
+              <div class="indicador-led" data-led-id="r4-c4"></div>
+              <div class="indicador-led" data-led-id="r4-c5"></div>
+              <div class="indicador-led" data-led-id="r4-c6"></div>
+              <div class="indicador-led" data-led-id="r4-c7"></div>
+              <div class="indicador-led" data-led-id="r4-c8"></div>
+            </div>
+            <div class="fila-botonera fila-layout">
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c1"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c2"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c3"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c4"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c5"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c6"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c7"></button>
+              <button type="button" class="btn-rect-custom btn-green" data-btn-id="r4-c8"></button>
+            </div>
+          </div>
+
+          <div class="grupo-fila">
+            <div class="indicadores-fila fila-layout">
+              <div class="indicador-led" data-led-id="r5-c1"></div>
+              <div class="indicador-led" data-led-id="r5-c2"></div>
+              <div class="indicador-led" data-led-id="r5-c3"></div>
+              <div class="indicador-led" data-led-id="r5-c4"></div>
+              <div class="indicador-led" data-led-id="r5-c5"></div>
+              <div class="indicador-led" data-led-id="r5-c6"></div>
+              <div class="indicador-led" data-led-id="r5-c7"></div>
+              <div class="indicador-led" data-led-id="r5-c8"></div>
+            </div>
+            <div class="fila-botonera fila-layout">
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c1"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c2"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c3"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c4"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c5"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c6"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c7"></button>
+              <button type="button" class="btn-rect-custom btn-white" data-btn-id="r5-c8"></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
 
     <!-- Próximas actividades (agregadas o específicas) -->
@@ -58,6 +175,8 @@
       <h2>Enlaces comunes UNED</h2>
       <div id="common-links-grid" class="grid" aria-live="polite"></div>
     </section>
+
+
 
     <!-- Enlaces específicos por asignatura -->
     <section>
@@ -76,6 +195,7 @@
     </footer>
   </main>
 
+  <!-- Botonera script is now part of the source JS (imported by your bundler). -->
   <script type="module" src="dist/js/main.js"></script>
 </body>
 </html>

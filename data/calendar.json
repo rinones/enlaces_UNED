@@ -1,0 +1,20 @@
+{
+  "events": [
+    {
+      "date": "2025-11-22",
+      "text": "Escalada Nevado Colima",
+      "link": "",
+      "pages": ["home", "travel"]
+    },
+    {
+      "date": "2025-11-23",
+      "text": "Escalada Nevado Colima",
+      "link": "",
+      "pages": ["home", "travel"]
+    }
+  ],
+  "start": {
+    "year": 2025,
+    "month": 9
+  }
+}

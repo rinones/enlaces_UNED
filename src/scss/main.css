@@ -902,6 +902,11 @@ header.site-header p {
 */
 #uned-subject-selector {
   /* Panel principal oscuro */
+  /* Contenedor de cada par de fila de LED + Fila de Botones */
+  /* Contenedor de una fila de botones o una fila de LEDs */
+  /* Estilo general para todos los botones */
+  /* INDICADORES LUMINOSOS */
+  /* Accesibilidad: indicación de foco para navegación por teclado */
 }
 #uned-subject-selector .panel-principal {
   background-color: #333;
@@ -914,16 +919,10 @@ header.site-header p {
   gap: 8px;
   width: fit-content;
 }
-#uned-subject-selector {
-  /* Contenedor de cada par de fila de LED + Fila de Botones */
-}
 #uned-subject-selector .grupo-fila {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-#uned-subject-selector {
-  /* Contenedor de una fila de botones o una fila de LEDs */
 }
 #uned-subject-selector .fila-layout {
   display: flex;
@@ -941,19 +940,14 @@ header.site-header p {
 #uned-subject-selector .fila-botonera.fila-layout > :nth-child(7) {
   margin-left: 18px;
 }
-#uned-subject-selector {
-  /* Estilo general para todos los botones: tamaño fijo y consistente. */
-}
 #uned-subject-selector .btn-rect-custom {
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 45px; /* mismo ancho para todos */
-  max-width: 45px;
   width: 45px;
-  height: 28px; /* altura uniforme */
-  padding: 2px 6px;
-  font-size: 12px; /* sólo cambiar tamaño de letra para ajustar etiquetas */
+  height: 25px;
+  padding: 0;
+  font-size: 14px; /* mostrar siglas */
   cursor: pointer;
   border-radius: 3px;
   border: 1px solid #111;
@@ -962,11 +956,6 @@ header.site-header p {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   transition: all 0.1s ease-out;
   transform: translateY(0);
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 #uned-subject-selector .btn-rect-custom.btn-red {
   background-color: #e74c3c;
@@ -992,9 +981,6 @@ header.site-header p {
   filter: brightness(1.3);
   border-color: #444;
 }
-#uned-subject-selector {
-  /* INDICADORES LUMINOSOS */
-}
 #uned-subject-selector .indicador-led {
   width: 5px;
   height: 5px;
@@ -1008,26 +994,7 @@ header.site-header p {
   background-color: #0ff;
   box-shadow: 0 0 5px #0ff, 0 0 10px #0ff, inset 0 0 2px rgba(255, 255, 255, 0.7);
 }
-#uned-subject-selector {
-  /* Accesibilidad: indicación de foco para navegación por teclado */
-}
 #uned-subject-selector .btn-rect-custom:focus {
   outline: 3px solid rgba(255, 255, 255, 0.12);
   outline-offset: 2px;
-}
-
-/* Force the main panel with the three subject buttons into the 3rd column
-   of the parent grid (mega-sections). On small screens, allow it to span
-   full width (stack). */
-#uned-subject-selector .panel-principal {
-  grid-column: 3;
-}
-
-@media (max-width: 880px) {
-  #uned-subject-selector .panel-principal {
-    grid-column: auto;
-    width: 100%;
-  }
-}
-
-/*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

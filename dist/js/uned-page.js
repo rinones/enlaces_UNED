@@ -1,4 +1,4 @@
-import { $, fetchJSON } from './utils.js';
+import { $, fetchJSON, inferLinksKeyFromPath } from './utils.js';
 import { getUnifiedLinksCache } from './links.js';
 
 function slugify(name){ return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
@@ -14,22 +14,103 @@ function collectSubjectSlugs(subjects){ const slugs=[]; subjects.forEach(g=>{ (g
 export function initUnedPage(){
   const selectorEl=$('#uned-subject-selector'); if(!selectorEl) return; const titleEl=$('#uned-title'); const subtitleEl=$('#uned-subtitle'); const upcomingTitleEl=$('#upcoming-title'); const upcomingEl=$('#uned-upcoming'); const upcomingEmptyEl=$('#uned-upcoming-empty'); const commonGrid=$('#common-links-grid'); const subjGrid=$('#subject-links-grid'); const subjEmpty=$('#subject-empty-state'); const subjLinksTitle=$('#subject-links-title'); const subjExtras=$('#subject-extras');
   let selected=parseSel(); let subjects=[];
+  // Toggle LED indicators based on buttons' data-btn-id matching indicator data-led-id
+  function updateIndicators(){
+    if(!selectorEl) return;
+    // find all buttons with a data-btn-id inside the selector
+    const allBtns = selectorEl.querySelectorAll('[data-btn-id]');
+    allBtns.forEach(b=>{
+      const id = b.getAttribute('data-btn-id');
+      if(!id) return;
+      const led = selectorEl.querySelector('[data-led-id="'+id+'"]');
+      if(!led) return;
+      const pressed = b.getAttribute('aria-pressed')==='true' || b.classList.contains('active') || b.classList.contains('is-active');
+      if(pressed) led.classList.add('led-on'); else led.classList.remove('led-on');
+    });
+  }
   function updateUrl(sel){ const url=new URL(location.href); if(sel){ url.hash=sel; history.replaceState(null,'',url.toString()); } else { url.hash=''; history.replaceState(null,'',url.pathname + url.search); } }
   function setSelected(slug){ if(selected===slug) slug=null; selected=slug||null; updateUrl(selected); renderAll(); }
-  function renderSelector(){ selectorEl.innerHTML=''; const groups=subjects.slice().sort((a,b)=> (a.curso||0)-(b.curso||0) || (a.cuatrimestre||0)-(b.cuatrimestre||0)); groups.forEach(g=>{ const sec=document.createElement('div'); sec.className='mega-section'; const title=document.createElement('div'); title.className='mega-title'; const t=(g.curso?(g.curso+'º'):'') + (g.cuatrimestre?(' · '+(g.cuatrimestre===1?'1er':'2º')+' cuatrimestre'):''); title.textContent=t||'Asignaturas'; sec.appendChild(title); const list=document.createElement('div'); list.className='mega-list'; const items=(g.asignaturas||[]).slice().sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||'','es',{sensitivity:'base'})); items.forEach(it=>{ const a=document.createElement('a'); a.href='#'+slugify(it.nombre); a.className='dropdown-item'; a.textContent=it.nombre; if(selected && slugify(it.nombre)===selected){ a.setAttribute('aria-current','page'); } a.addEventListener('click', e=>{ e.preventDefault(); setSelected(slugify(it.nombre)); }); list.appendChild(a); }); sec.appendChild(list); selectorEl.appendChild(sec); }); }
+  function renderSelector(){
+    // If the page already contains a static botonera (pre-rendered markup),
+    // preserve it to avoid visual flicker and only attach event handlers.
+    if(selectorEl && selectorEl.children && selectorEl.children.length > 0){
+      const existingBtns = selectorEl.querySelectorAll('[data-subject]');
+      existingBtns.forEach(btn=>{
+        // avoid duplicate handlers
+        btn.replaceWith(btn.cloneNode(true));
+      });
+      // re-query after cloning
+      const buttons = selectorEl.querySelectorAll('[data-subject]');
+      buttons.forEach(btn=>{
+        const subj = (btn.getAttribute('data-subject')||'').trim().toLowerCase();
+        btn.addEventListener('click', ()=>{ setSelected(subj); });
+      });
+      // reflect current selection state
+      buttons.forEach(btn=>{
+        const subj = (btn.getAttribute('data-subject')||'').trim().toLowerCase();
+        const isSel = !!selected && subj===selected;
+        if(isSel){ btn.classList.add('active'); btn.setAttribute('aria-pressed','true'); }
+        else { btn.classList.remove('active'); btn.setAttribute('aria-pressed','false'); }
+      });
+      // Update LED indicators to match active buttons (data-btn-id -> data-led-id)
+      updateIndicators();
+      return;
+    }
+
+    // Fallback: build dynamic selector when no static markup exists
+    selectorEl.innerHTML='';
+    const groups=subjects.slice().sort((a,b)=> (a.curso||0)-(b.curso||0) || (a.cuatrimestre||0)-(b.cuatrimestre||0));
+    groups.forEach(g=>{
+      const sec=document.createElement('div');
+      sec.className='mega-section';
+      const title=document.createElement('div');
+      title.className='mega-title';
+      const t=(g.curso?(g.curso+'º'):'') + (g.cuatrimestre?(' · '+(g.cuatrimestre===1?'1er':'2º')+' cuatrimestre'):'');
+      title.textContent=t||'Asignaturas';
+      sec.appendChild(title);
+      const list=document.createElement('div');
+      list.className='mega-list';
+      const items=(g.asignaturas||[]).slice().sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||'','es',{sensitivity:'base'}));
+      items.forEach(it=>{
+        const s=slugify(it.nombre);
+  const btn=document.createElement('button');
+  btn.type='button';
+  // keep semantic subject-btn but also apply botonera visual class
+  btn.className='subject-btn btn-rect-custom';
+        // when generating dynamically we may not have a data-btn-id mapping; keep empty
+        // consumers relying on LEDs should provide static markup with data-btn-id attributes.
+        btn.textContent=it.nombre;
+        const isSel=!!selected && s===selected;
+        btn.setAttribute('aria-pressed', isSel? 'true':'false');
+        if(isSel) btn.classList.add('is-active');
+        btn.addEventListener('click', ()=>{ setSelected(s); });
+        list.appendChild(btn);
+      });
+      sec.appendChild(list);
+      selectorEl.appendChild(sec);
+    });
+  }
   function loadAllUpcoming(){
     // Prefer modular activities
     const slugs=collectSubjectSlugs(subjects);
-    return Promise.all(slugs.map(s=>fetchJSON(`data/activities/subjects/${s}.json`).then(a=>Array.isArray(a)?a:[]))).then(arrs=>{
-      const now=today0(); const items=[]; arrs.forEach(a=>{ a.forEach(x=>{ const d=parseYMD(x.date||x.ymd); if(!d) return; items.push({date:d, title:String(x.title||x.text||'Actividad'), link:x.link||''}); }); });
+    const currentPage = inferLinksKeyFromPath();
+    return Promise.all(slugs.map(s=>fetchJSON(`data/activities/subjects/${s}.json`).then(a=>[s, Array.isArray(a)?a:[]]))).then(pairs=>{
+      const now=today0(); const items=[];
+      pairs.forEach(([s,a])=>{ a.forEach(x=>{ const d=parseYMD(x.date||x.ymd); if(!d) return; // page filtering
+        if(x.pages && Array.isArray(x.pages) && x.pages.indexOf(currentPage)===-1) return;
+        if(x.page && String(x.page)!==currentPage) return;
+        // subject: if present, ensure it matches the file slug
+        if(x.subject && String(x.subject).toLowerCase()!==s) return;
+        items.push({date:d, title:String(x.title||x.text||'Actividad'), link:x.link||''}); }); });
       if(items.length) return items.filter(x=>x.date>=now).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10);
       // fallback to unified
-      return fetchJSON('data/activities.json').then(json=>{ if(json && json.subjects){ const now=today0(); const items=[]; Object.keys(json.subjects||{}).forEach(k=>{ (json.subjects[k]||[]).forEach(x=>{ const d=parseYMD(x.date||x.ymd); if(!d) return; items.push({date:d, title:String(x.title||x.text||'Actividad'), link:x.link||''}); }); }); return items.filter(x=>x.date>=now).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10);} return []; });
+      return fetchJSON('data/activities.json').then(json=>{ if(json && json.subjects){ const now=today0(); const items=[]; Object.keys(json.subjects||{}).forEach(k=>{ (json.subjects[k]||[]).forEach(x=>{ const d=parseYMD(x.date||x.ymd); if(!d) return; if(x.pages && Array.isArray(x.pages) && x.pages.indexOf(currentPage)===-1) return; if(x.page && String(x.page)!==currentPage) return; items.push({date:d, title:String(x.title||x.text||'Actividad'), link:x.link||''}); }); }); return items.filter(x=>x.date>=now).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10);} return []; });
     });
   }
   function loadUpcomingFor(slug){
-    return fetchJSON(`data/activities/subjects/${slug}.json`).then(arr=>Array.isArray(arr)?arr:[]).then(arr=>{ if(arr.length){ const now=today0(); return arr.map(x=>({date:parseYMD(x.date||x.ymd), title:String(x.title||x.text||'Actividad'), link:x.link||''})).filter(x=>x.date && x.date>=now).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10); }
-      return fetchJSON('data/activities.json').then(json=>{ if(json && json.subjects && Array.isArray(json.subjects[slug])){ const arr=json.subjects[slug]||[]; const now=today0(); return arr.map(x=>({date:parseYMD(x.date||x.ymd), title:String(x.title||x.text||'Actividad'), link:x.link||''})).filter(x=>x.date && x.date>=now).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10);} return []; });
+    const currentPage = inferLinksKeyFromPath();
+    return fetchJSON(`data/activities/subjects/${slug}.json`).then(arr=>Array.isArray(arr)?arr:[]).then(arr=>{ if(arr.length){ const now=today0(); return arr.map(x=>({raw:x, date:parseYMD(x.date||x.ymd), title:String(x.title||x.text||'Actividad'), link:x.link||''})).filter(item=>{ if(!item.date) return false; const x=item.raw; if(x.pages && Array.isArray(x.pages) && x.pages.indexOf(currentPage)===-1) return false; if(x.page && String(x.page)!==currentPage) return false; if(x.subject && String(x.subject).toLowerCase()!==slug) return false; return item.date && item.date>=now; }).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10).map(it=>({date:it.date, title:it.title, link:it.link})); }
+      return fetchJSON('data/activities.json').then(json=>{ if(json && json.subjects && Array.isArray(json.subjects[slug])){ const arr=json.subjects[slug]||[]; const now=today0(); return arr.map(x=>({raw:x, date:parseYMD(x.date||x.ymd), title:String(x.title||x.text||'Actividad'), link:x.link||''})).filter(item=>{ if(!item.date) return false; const x=item.raw; if(x.pages && Array.isArray(x.pages) && x.pages.indexOf(currentPage)===-1) return false; if(x.page && String(x.page)!==currentPage) return false; return item.date && item.date>=now; }).sort((a,b)=>a.date-b.date || a.title.localeCompare(b.title)).slice(0,10).map(it=>({date:it.date, title:it.title, link:it.link})); } return []; });
     });
   }
   function clearSubjectLinks(){ if(subjGrid) subjGrid.innerHTML=''; if(subjEmpty) subjEmpty.hidden=true; if(subjLinksTitle) subjLinksTitle.hidden=true; }
@@ -52,7 +133,7 @@ export function initUnedPage(){
       });
     });
   }
-  function renderAll(){ if(titleEl) titleEl.textContent = selected ? ('UNED · '+selected.toUpperCase()) : 'UNED'; if(subtitleEl) subtitleEl.textContent = selected ? 'Vista específica de asignatura' : 'Vista general y selector de asignaturas'; if(upcomingTitleEl) upcomingTitleEl.textContent = selected ? 'Próximas actividades (asignatura)' : 'Próximas actividades (todas)'; renderSelector(); (selected?loadUpcomingFor(selected):loadAllUpcoming()).then(upc=>{ if(!upcomingEl) return; upcomingEl.innerHTML=''; if(!upc||!upc.length){ if(upcomingEmptyEl) upcomingEmptyEl.hidden=false; return; } if(upcomingEmptyEl) upcomingEmptyEl.hidden=true; upc.forEach(item=>{ const li=document.createElement('li'); li.className='upcoming-item'; const date=document.createElement('span'); date.className='upcoming-date'; date.textContent=formatDateShort(item.date); li.appendChild(date); if(item.link){ const a=document.createElement('a'); a.className='upcoming-link'; a.href=item.link; a.textContent=item.title; li.appendChild(a);} else { const s=document.createElement('span'); s.textContent=item.title; li.appendChild(s);} upcomingEl.appendChild(li); }); }); loadCommonLinks(); if(selected){ loadSubjectLinks(selected); } else { clearSubjectLinks(); } clearExtras(); if(selected==='redes'){ /* placeholder for subject-specific extras */ }
+  function renderAll(){ if(titleEl) titleEl.textContent = selected ? ('UNED · '+selected.toUpperCase()) : 'UNED'; if(subtitleEl) subtitleEl.textContent = selected ? 'Vista específica de asignatura' : 'Vista general y selector de asignaturas'; if(upcomingTitleEl) upcomingTitleEl.textContent = selected ? ('Próximas actividades ('+selected.toUpperCase()+')') : 'Próximas actividades (Todas)'; renderSelector(); (selected?loadUpcomingFor(selected):loadAllUpcoming()).then(upc=>{ if(!upcomingEl) return; upcomingEl.innerHTML=''; if(!upc||!upc.length){ if(upcomingEmptyEl) upcomingEmptyEl.hidden=false; return; } if(upcomingEmptyEl) upcomingEmptyEl.hidden=true; upc.forEach(item=>{ const li=document.createElement('li'); li.className='upcoming-item'; const date=document.createElement('span'); date.className='upcoming-date'; date.textContent=formatDateShort(item.date); li.appendChild(date); if(item.link){ const a=document.createElement('a'); a.className='upcoming-link'; a.href=item.link; a.textContent=item.title; li.appendChild(a);} else { const s=document.createElement('span'); s.textContent=item.title; li.appendChild(s);} upcomingEl.appendChild(li); }); }); loadCommonLinks(); if(selected){ loadSubjectLinks(selected); } else { clearSubjectLinks(); } clearExtras(); if(selected==='redes'){ /* placeholder for subject-specific extras */ }
   }
   fetchJSON('data/uned-subjects.json').then(json=>{ subjects=Array.isArray(json)?json:[]; renderAll(); window.addEventListener('hashchange', ()=>{ selected=parseSel(); renderAll(); }); });
 }
