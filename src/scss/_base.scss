@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'sass:color';
 
 *{box-sizing: border-box}
 html,body{height:100%}
@@ -146,7 +147,7 @@ body{
 
 /* External variant (right-side links) */
 %nav-link-external{
-  color: darken($accent, 8%);
+  color: color.adjust($accent, $lightness: -8%);
   background: transparent;
   padding: .45rem .7rem;
   border-radius: 12px;
