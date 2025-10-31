@@ -1,4 +1,22 @@
 @use 'variables' as *;
+@use 'sass:color';
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: $primary;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
 
 *{box-sizing: border-box}
 html,body{height:100%}
@@ -146,7 +164,7 @@ body{
 
 /* External variant (right-side links) */
 %nav-link-external{
-  color: darken($accent, 8%);
+  color: color.adjust($accent, $lightness: -8%);
   background: transparent;
   padding: .45rem .7rem;
   border-radius: 12px;
@@ -195,6 +213,45 @@ body{
 }
 
 .controls{display:flex;gap:.5rem;align-items:center;flex: 0 1 auto; min-width: 0}
+
+/* Responsive controls */
+@media (max-width: 768px) {
+  .controls {
+    flex-wrap: wrap;
+  }
+  
+  .search {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .quick-search--compact {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .controls {
+    width: 100%;
+  }
+  
+  .main-nav {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .main-nav .nav-external {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
 
 .search{
   padding:.5rem .75rem;
