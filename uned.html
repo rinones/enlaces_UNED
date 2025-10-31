@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNED</title>
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <nav class="main-nav">
+        <div class="nav-left">
+          <a href="index.html" class="nav-link">Home</a>
+          <div class="dropdown" data-menu="uned">
+            <a href="uned.html" class="nav-link dropdown-toggle" aria-expanded="false">UNED</a>
+            <div class="dropdown-menu mega-menu">
+              <div class="mega-sections" aria-live="polite"></div>
+            </div>
+          </div>
+          <a href="travel.html" class="nav-link">Viajes</a>
+          <a href="calendar.html" class="nav-link">Calendario</a>
+          <a href="contenido.html" class="nav-link">Contenido</a>
+        </div>
+        <div class="nav-external">
+          <a href="https://sso.uned.es/sso/index.aspx?URL=http://www.uned.es/universidad/campus/" class="nav-link external">Campus</a>
+          <a href="https://mail.google.com/" class="nav-link external" title="GMail">GMail</a>
+          <a href="https://github.com/copilot" class="nav-link external">Copilot</a>
+          <a href="https://gemini.google.com/" class="nav-link external">Gemini</a>
+        </div>
+      </nav>
+      <div class="topbar">
+        <div class="brand">
+          <h1 id="uned-title">UNED</h1>
+          <p class="subtitle" id="uned-subtitle">Vista general y selector de asignaturas</p>
+        </div>
+
+        <div class="controls">
+          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+        </div>
+      </div>
+    </header>
+    <!-- Selector de asignaturas (por curso y cuatrimestre) -->
+    <section>
+      <h2>Asignaturas</h2>
+      <div id="uned-subject-selector" class="mega-sections" aria-live="polite"></div>
+    </section>
+
+    <!-- Próximas actividades (agregadas o específicas) -->
+    <section class="upcoming-section">
+      <h2 class="upcoming-title" id="upcoming-title">Próximas actividades</h2>
+      <ol id="uned-upcoming" class="upcoming-list" aria-live="polite"></ol>
+      <div id="uned-upcoming-empty" class="upcoming-empty" hidden>No hay actividades próximas.</div>
+    </section>
+
+    <!-- Enlaces comunes UNED -->
+    <section>
+      <h2>Enlaces comunes UNED</h2>
+      <div id="common-links-grid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Enlaces específicos por asignatura -->
+    <section>
+      <h2 id="subject-links-title" hidden>Enlaces de asignatura</h2>
+      <div id="subject-links-grid" class="grid" aria-live="polite"></div>
+      <div id="subject-empty-state" class="empty-state" hidden>
+        <p>No hay enlaces específicos para esta asignatura.</p>
+      </div>
+    </section>
+
+    <!-- Extras específicos (p.ej., panel de progreso de REDES) -->
+    <section id="subject-extras" class="redes-section" hidden></section>
+
+    <footer class="site-footer">
+      <p>© UNED - Enlaces</p>
+    </footer>
+  </main>
+
+  <script type="module" src="dist/js/main.js"></script>
+</body>
+</html>

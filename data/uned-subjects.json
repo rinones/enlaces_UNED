@@ -1,0 +1,18 @@
+[
+  {
+    "curso": 2,
+    "cuatrimestre": 1,
+    "asignaturas": [
+      { "nombre": "IC2",   "href": "uned.html#ic2" },
+      { "nombre": "PREDA", "href": "uned.html#preda" },
+      { "nombre": "REDES", "href": "uned.html#redes" }
+    ]
+  },
+  {
+    "curso": 1,
+    "cuatrimestre": 2,
+    "asignaturas": [
+      { "nombre": "EPED", "href": "uned.html#eped" }
+    ]
+  }
+]

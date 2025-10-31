@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendario</title>
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <nav class="main-nav">
+        <div class="nav-left">
+          <a href="index.html" class="nav-link">Home</a>
+          <div class="dropdown" data-menu="uned">
+            <a href="uned.html" class="nav-link dropdown-toggle" aria-expanded="false">UNED</a>
+            <div class="dropdown-menu mega-menu">
+              <div class="mega-sections" aria-live="polite"></div>
+            </div>
+          </div>
+          <a href="travel.html" class="nav-link">Viajes</a>
+          <a href="calendar.html" class="nav-link">Calendario</a>
+          <a href="contenido.html" class="nav-link">Contenido</a>
+        </div>
+        <div class="nav-external">
+          <a href="https://sso.uned.es/sso/index.aspx?URL=http://www.uned.es/universidad/campus/" class="nav-link external">Campus</a>
+          <a href="https://mail.google.com/" class="nav-link external" title="GMail">GMail</a>
+          <a href="https://github.com/copilot" class="nav-link external">Copilot</a>
+          <a href="https://gemini.google.com/" class="nav-link external">Gemini</a>
+        </div>
+      </nav>
+      <div class="topbar">
+        <div class="brand">
+          <h1>Calendario</h1>
+          <p class="subtitle">Vista mensual con avisos locales</p>
+        </div>
+
+        <div class="controls">
+          <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <header class="calendar-header">
+        <button id="prevMonth" class="nav-btn" aria-label="Mes anterior">‹</button>
+        <h2 id="monthYear">Mes Año</h2>
+        <button id="nextMonth" class="nav-btn" aria-label="Mes siguiente">›</button>
+      </header>
+
+      <div id="calendar" class="calendar">
+        <div class="weekdays" aria-hidden="false"></div>
+        <div class="weeks"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© Enlaces — Calendario</p>
+    </footer>
+  </main>
+
+  <!-- Login overlay: pide contraseña antes de mostrar la app -->
+  <div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true">
+    <div class="login-panel">
+      <h2 id="loginTitle">Acceso</h2>
+      <div id="loginError" class="login-error" aria-live="polite"></div>
+
+      <div class="login-fields">
+        <input id="loginInput" type="password" placeholder="Contraseña" autocomplete="current-password">
+      </div>
+
+      <div class="login-actions">
+        <button id="loginBtn" class="btn primary">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="dist/js/main.js"></script>
+</body>
+</html>
