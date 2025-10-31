@@ -6,6 +6,7 @@ import { initUpcoming } from './upcoming.js';
 import { initUnedPage } from './uned-page.js';
 import { initCalendar } from './calendar.js';
 import { initKeyboardShortcuts } from './keyboard.js';
+import { initHelp } from './help.js';
 
 /**
  * Register service worker for offline support
@@ -44,6 +45,8 @@ function init(){
   registerServiceWorker();
   // Keyboard shortcuts
   initKeyboardShortcuts();
+  // Help
+  initHelp();
 }
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();

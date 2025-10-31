@@ -1,5 +1,6 @@
 import { $, fetchJSON, getByKeyPath, inferLinksKeyFromPath, debounce } from './utils.js';
 import { trackLinkClick } from './stats.js';
+import { validateLinks } from './validation.js';
 
 let LINKS = [];
 let UNIFIED_LINKS_CACHE = null; // from data/links.json when used as index
@@ -34,7 +35,7 @@ export function loadLinks() {
   
   return tryModular.then(json => {
     if (Array.isArray(json)) {
-      LINKS = json;
+      LINKS = validateLinks(json);
       hideLoadingState();
       return;
     }
@@ -42,21 +43,21 @@ export function loadLinks() {
     return fetchJSON('data/links.json').then(idx => {
       if (Array.isArray(idx)) {
         UNIFIED_LINKS_CACHE = null;
-        LINKS = idx;
+        LINKS = validateLinks(idx);
         hideLoadingState();
         return;
       }
       if (idx && typeof idx === 'object') {
         UNIFIED_LINKS_CACHE = idx;
         const arr = getByKeyPath(idx, key);
-        LINKS = Array.isArray(arr) ? arr : [];
+        LINKS = validateLinks(Array.isArray(arr) ? arr : []);
         hideLoadingState();
         return;
       }
       // fallback to legacy explicit path or old defaults
       const legacy = explicitPath || 'data/uned-links.json';
       return fetchJSON(legacy).then(arr => {
-        LINKS = Array.isArray(arr) ? arr : [];
+        LINKS = validateLinks(Array.isArray(arr) ? arr : []);
         hideLoadingState();
       });
     });

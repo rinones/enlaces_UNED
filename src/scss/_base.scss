@@ -1,6 +1,23 @@
 @use 'variables' as *;
 @use 'sass:color';
 
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: $primary;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 *{box-sizing: border-box}
 html,body{height:100%}
 body{

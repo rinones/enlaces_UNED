@@ -25,14 +25,15 @@
   <meta name="theme-color" content="#0b5fff">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
   <script>
     // Config automático: el loader usa ficheros modulares data/links/home.json por defecto
     // Puedes forzar con: window.LINKS_KEY = 'home';
   </script>
 
-  <main class="container">
+  <main class="container" role="main">
     <header class="site-header">
-      <nav class="main-nav">
+      <nav class="main-nav" role="navigation" aria-label="Navegación principal">
         <div class="nav-left">
           <a href="index.html" class="nav-link">Home</a>
           <div class="dropdown" data-menu="uned">
@@ -71,18 +72,19 @@
           </form>
 
           <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
+          <button id="help-toggle" class="help-toggle" aria-label="Ayuda y atajos de teclado" title="Ayuda (?)">?</button>
         </div>
       </div>
     </header>
 
-    <section class="upcoming-section">
+    <section class="upcoming-section" aria-label="Próximas actividades">
       <h2 class="upcoming-title">Próximas actividades</h2>
       <ol id="upcoming-activities" class="upcoming-list" aria-live="polite"></ol>
       <div id="upcoming-empty" class="upcoming-empty" hidden>No hay actividades próximas.</div>
     </section>
 
-    <section>
-      <div id="links-grid" class="grid" aria-live="polite">
+    <section aria-label="Enlaces principales" id="main-content">
+      <div id="links-grid" class="grid" aria-live="polite" role="list">
         <!-- Las tarjetas se renderizan con JS -->
       </div>
 
