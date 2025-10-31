@@ -1,5 +1,4 @@
-
-@import 'variables';
+@use 'variables' as *;
 
 .grid{
   display:grid;
@@ -68,7 +67,7 @@
 .page-info{font-size:.95rem;color:var(--muted)}
 
 /* Empty state */
-.empty-state{padding:2rem 0;color:var(--muted)}
+.empty-state{text-align:center;color:var(--muted);padding:3rem 0}
 
 /* Dark theme overrides */
 html.dark .link-card{background: var(--card); box-shadow:none}

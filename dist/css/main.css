@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -39,7 +38,7 @@ body {
 }
 
 .brand .subtitle {
-  margin: 0;
+  margin: 0.25rem 0 0;
   color: #6b7280;
   font-size: 0.95rem;
 }
@@ -565,8 +564,9 @@ html.dark .redes-panel {
 
 /* Empty state */
 .empty-state {
-  padding: 2rem 0;
+  text-align: center;
   color: var(--muted);
+  padding: 3rem 0;
 }
 
 /* Dark theme overrides */
