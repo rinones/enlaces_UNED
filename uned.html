@@ -12,8 +12,14 @@
       <nav class="main-nav">
         <div class="nav-left">
           <a href="index.html" class="nav-link">Home</a>
-          <a href="uned.html" class="nav-link">UNED</a>
+          <div class="dropdown" data-menu="uned">
+            <a href="uned.html" class="nav-link dropdown-toggle" aria-expanded="false">UNED</a>
+            <div class="dropdown-menu mega-menu">
+              <div class="mega-sections" aria-live="polite"></div>
+            </div>
+          </div>
           <a href="travel.html" class="nav-link">Viajes</a>
+          <a href="calendar.html" class="nav-link">Calendario</a>
           <a href="contenido.html" class="nav-link">Contenido</a>
         </div>
         <div class="nav-external">
@@ -25,173 +31,51 @@
       </nav>
       <div class="topbar">
         <div class="brand">
-          <h1>UNED</h1>
-          <p class="subtitle">Cuadrícula de accesos rápidos</p>
+          <h1 id="uned-title">UNED</h1>
+          <p class="subtitle" id="uned-subtitle">Vista general y selector de asignaturas</p>
         </div>
 
         <div class="controls">
-          <input id="search-input" class="search" type="search" placeholder="Buscar en todas las secciones" aria-label="Buscar enlaces">
-
-          <!-- Buscadores rápidos: Google y DuckDuckGo (igual que en index) -->
-          <form class="quick-search quick-search--compact" action="https://www.google.com/search" method="GET">
-            <input id="q-google" name="q" type="search" placeholder="Buscar en Google" aria-label="Buscar en Google" class="search search--compact">
-          </form>
-
-          <form class="quick-search quick-search--compact" action="https://duckduckgo.com/" method="GET">
-            <input id="q-ddg" name="q" type="search" placeholder="Buscar en DuckDuckGo" aria-label="Buscar en DuckDuckGo" class="search search--compact">
-          </form>
-
           <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">Tema</button>
         </div>
       </div>
     </header>
-
+    <!-- Selector de asignaturas (por curso y cuatrimestre) -->
     <section>
-      <div id="links-grid" class="grid" aria-live="polite">
-        <!-- Las tarjetas se renderizan con JS -->
-      </div>
+      <h2>Asignaturas</h2>
+      <div id="uned-subject-selector" class="mega-sections" aria-live="polite"></div>
+    </section>
 
-      <div id="empty-state" class="empty-state" hidden>
-        <p>No hay enlaces. Añade algunos en el archivo de datos o pegando la lista.</p>
+    <!-- Próximas actividades (agregadas o específicas) -->
+    <section class="upcoming-section">
+      <h2 class="upcoming-title" id="upcoming-title">Próximas actividades</h2>
+      <ol id="uned-upcoming" class="upcoming-list" aria-live="polite"></ol>
+      <div id="uned-upcoming-empty" class="upcoming-empty" hidden>No hay actividades próximas.</div>
+    </section>
+
+    <!-- Enlaces comunes UNED -->
+    <section>
+      <h2>Enlaces comunes UNED</h2>
+      <div id="common-links-grid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Enlaces específicos por asignatura -->
+    <section>
+      <h2 id="subject-links-title" hidden>Enlaces de asignatura</h2>
+      <div id="subject-links-grid" class="grid" aria-live="polite"></div>
+      <div id="subject-empty-state" class="empty-state" hidden>
+        <p>No hay enlaces específicos para esta asignatura.</p>
       </div>
     </section>
 
-    <!-- REDES: panel de la asignatura con 19 temas y 2 PECs; estado controlado por código -->
-    <section class="redes-section">
-      <div class="redes-panel" id="redes-panel">
-        <div class="redes-header">
-          <h3>REDES</h3>
-          <div class="redes-progress-wrap">
-            <div class="redes-progress" role="progressbar" aria-label="Progreso REDES">
-              <div class="redes-progress__fill" id="redes-fill" style="width:0%"></div>
-              <div class="redes-progress__ticks" aria-hidden="true">
-                <div class="tick" style="left:0%"></div>
-                <div class="tick small" style="left:25%"></div>
-                <div class="tick" style="left:50%"></div>
-                <div class="tick small" style="left:75%"></div>
-                <div class="tick" style="left:100%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="redes-topics" id="redes-topics">
-          <!-- 19 topics will be rendered here by script -->
-        </div>
-
-        <div class="redes-pecs" id="redes-pecs">
-          <!-- Two PECs rendered by script -->
-        </div>
-
-        <!-- Recomendaciones específicas para REDES -->
-        <div class="redes-notes" id="redes-recommendations">
-          <h4>Recomendaciones</h4>
-          <ul>
-            <li>Dificultad: asignatura densa y con bajo porcentaje de aprobados — exige estudio y práctica continuos.</li>
-            <li>Herramientas: Wireshark (PED_1: capturas) (Tema 8) y Cisco Packet Tracer (PED_2: topologías) (resto del temario).</li>
-            <li>Tutorías/materiales a priorizar: Miquel Piulats (UNED).</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <!-- Extras específicos (p.ej., panel de progreso de REDES) -->
+    <section id="subject-extras" class="redes-section" hidden></section>
 
     <footer class="site-footer">
       <p>© UNED - Enlaces</p>
     </footer>
   </main>
 
-  <script>
-  // Página UNED carga los enlaces de la UNED
-  window.LINKS_PATH = 'data/uned-links.json';
-
-  // REDES rendering & API (state controlled programmatically; persisted in localStorage)
-    (function(){
-  const STORAGE_KEY = 'redes_state_v1';
-  const NUM_TOPICS = 19;
-  const SUBS_PER_TOPIC = ['Leer', 'Resumen', 'Ejercicios'];
-  const PEC_LIST = [ {id:'PEC1', due: 'mediados de noviembre'}, {id:'PEC2', due:'-'} ];
-
-  const topicsContainer = document.getElementById('redes-topics');
-  const pecsContainer = document.getElementById('redes-pecs');
-  const fill = document.getElementById('redes-fill');
-
-      let state = { topics: {}, pecs: {} };
-
-      function load(){ try{ const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); if(s) state = Object.assign(state, s); }catch(e){} }
-      function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-      function makeTopicTitle(i){ return 'Tema ' + (i+1); }
-
-      function render(){
-        // topics
-        topicsContainer.innerHTML = '';
-        for(let i=0;i<NUM_TOPICS;i++){
-          const tkey = 't'+i;
-          const wrapper = document.createElement('div'); wrapper.className = 'redes-topic';
-          const title = document.createElement('div'); title.className='redes-topic__title'; title.textContent = makeTopicTitle(i);
-          const subs = document.createElement('div'); subs.className='redes-topic__subs';
-
-          (SUBS_PER_TOPIC).forEach((sname, si)=>{
-            const sub = document.createElement('div'); sub.className='redes-sub';
-            const done = state.topics[tkey] && state.topics[tkey][si];
-            if(done) sub.classList.add('done');
-            subs.appendChild(sub);
-          });
-
-          wrapper.appendChild(title); wrapper.appendChild(subs);
-          topicsContainer.appendChild(wrapper);
-        }
-
-        // PECs
-        pecsContainer.innerHTML = '';
-        PEC_LIST.forEach(p=>{
-          const el = document.createElement('div'); el.className='redes-pec'; el.textContent = p.id + ' — apertura: ' + p.due;
-          if(state.pecs[p.id]) el.style.opacity = '0.6';
-          pecsContainer.appendChild(el);
-        });
-
-        updateProgressFill();
-      }
-
-      function updateProgressFill(){
-        // compute progress as fraction of completed subtasks across all topics and PECs
-        let total = NUM_TOPICS * SUBS_PER_TOPIC.length + PEC_LIST.length;
-        let done = 0;
-        for(let i=0;i<NUM_TOPICS;i++){
-          const tkey = 't'+i; const arr = (state.topics[tkey]||[]);
-          arr.forEach(v=>{ if(v) done++; });
-        }
-        PEC_LIST.forEach(p=>{ if(state.pecs[p.id]) done++; });
-        const pct = Math.max(0, Math.min(100, Math.round((done/total)*100)));
-        fill.style.width = pct + '%';
-      }
-
-      // Expose API to set topic subtask or PEC programmatically
-      window.REDES = {
-        setTopicSub: function(topicIndex, subIndex, value){
-          const key = 't'+topicIndex; state.topics[key] = state.topics[key] || []; state.topics[key][subIndex] = !!value; save(); render();
-        },
-        setPEC: function(pecId, value){ state.pecs[pecId] = !!value; save(); render(); },
-        reset: function(){ state = {topics:{},pecs:{}}; save(); render(); },
-        getState: function(){ return JSON.parse(JSON.stringify(state)); }
-      };
-
-      load(); render();
-    })();
-  </script>
-  <script>
-    // Marca programáticamente que en los 3 primeros temas se han completado las 3 subtareas
-    (function(){
-      if(window.REDES){
-        for(let t=0;t<3;t++){
-          for(let s=0;s<3;s++){
-            window.REDES.setTopicSub(t, s, true);
-          }
-        }
-      }
-    })();
-  </script>
-  <script src="src/js/notices.js"></script>
-  <script src="dist/js/app.js"></script>
+  <script type="module" src="dist/js/main.js"></script>
 </body>
 </html>

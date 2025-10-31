@@ -8,8 +8,8 @@
 </head>
 <body>
   <script>
-    // Indica al script qué fichero JSON cargar en esta página de Contenido.
-    window.LINKS_PATH = 'data/content-links.json';
+    // Config automático: el loader usa ficheros modulares data/links/content.json por defecto en esta página
+    // Puedes forzar con: window.LINKS_KEY = 'content';
   </script>
 
   <main class="container">
@@ -17,8 +17,14 @@
       <nav class="main-nav">
         <div class="nav-left">
           <a href="index.html" class="nav-link">Home</a>
-          <a href="uned.html" class="nav-link">UNED</a>
+          <div class="dropdown" data-menu="uned">
+            <a href="uned.html" class="nav-link dropdown-toggle" aria-expanded="false">UNED</a>
+            <div class="dropdown-menu mega-menu">
+              <div class="mega-sections" aria-live="polite"></div>
+            </div>
+          </div>
           <a href="travel.html" class="nav-link">Viajes</a>
+          <a href="calendar.html" class="nav-link">Calendario</a>
           <a href="contenido.html" class="nav-link">Contenido</a>
         </div>
         <div class="nav-external">
@@ -51,6 +57,12 @@
       </div>
     </header>
 
+    <section class="upcoming-section">
+      <h2 class="upcoming-title">Próximas actividades</h2>
+      <ol id="upcoming-activities" class="upcoming-list" aria-live="polite"></ol>
+      <div id="upcoming-empty" class="upcoming-empty" hidden>No hay actividades próximas.</div>
+    </section>
+
     <section>
       <div id="links-grid" class="grid" aria-live="polite">
         <!-- Las tarjetas se renderizan con JS -->
@@ -66,7 +78,6 @@
     </footer>
   </main>
 
-  <script src="src/js/notices.js"></script>
-  <script src="dist/js/app.js"></script>
+  <script type="module" src="dist/js/main.js"></script>
 </body>
 </html>
