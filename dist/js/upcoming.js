@@ -76,7 +76,25 @@ async function fromLS(){
 function fromModular(){
   const subj=inferSubjectFromPath();
   if(subj){ return fetchJSON(`data/activities/subjects/${subj}.json`).then(arr=>Array.isArray(arr)?arr:[]); }
-  return fetchJSON('data/activities/general.json').then(arr=>Array.isArray(arr)?arr:[]);
+  // When no subject is selected (home), include general activities and
+  // also try to load per-subject files (preda, redes, etc.) so that
+  // subject-specific activities that declare pages:['home'] are shown
+  // on the home page. We use the `data/uned-subjects.json` manifest to
+  // discover available subject slugs.
+  return Promise.all([
+    fetchJSON('data/activities/general.json').then(a=>Array.isArray(a)?a:[]).catch(()=>[]),
+    fetchJSON('data/uned-subjects.json').then(a=>Array.isArray(a)?a:[]).catch(()=>[])
+  ]).then(([general, subjectsManifest])=>{
+    try{
+      const slugs = [];
+      (subjectsManifest||[]).forEach(g=>{ (g.asignaturas||[]).forEach(it=>{ const s=String((it.nombre||'')).trim().toLowerCase(); if(s && slugs.indexOf(s)===-1) slugs.push(s); }); });
+      if(!slugs.length) return general;
+      return Promise.all(slugs.map(s=>fetchJSON(`data/activities/subjects/${s}.json`).then(a=>Array.isArray(a)?a:[]).catch(()=>[]))).then(arrs=>{
+        // merge general + all subject arrays
+        return (general||[]).concat(...arrs);
+      }).catch(()=> general);
+    }catch(_){ return general; }
+  }).catch(()=> fetchJSON('data/activities/general.json').then(arr=>Array.isArray(arr)?arr:[]));
 }
 
 function fromUnified(){
