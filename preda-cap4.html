@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capítulo 4 — Divide y Vencerás (PREDA)</title>
+  <link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+  <main class="cap-container">
+    <header class="cap-header">
+      <div>
+        <h1>Resumen Clave: Capítulo 4 - Divide y Vencerás (Divide & Conquer)</h1>
+        <div class="cap-meta">Capítulo 4 · Técnicas de diseño · PREDA</div>
+      </div>
+      <div class="page-actions">
+        <a class="btn" href="preda-book.html">Índice PREDA</a>
+        <a class="btn" href="uned.html">Volver a UNED</a>
+      </div>
+    </header>
+
+    <p class="note">Este capítulo presenta una de las técnicas de diseño de algoritmos más potentes y fundamentales en la informática. "Divide y Vencerás" (DyV) es una estrategia elegante que resuelve problemas complejos de forma recursiva.</p>
+
+    <div class="layout">
+      <main>
+        <section>
+          <h2 id="idea-central" class="section-title">1. La Idea Central: "El Jefe de Proyecto" 📐</h2>
+          <p>La filosofía de DyV es como la de un buen jefe de proyecto:</p>
+          <p>Dividir: Si un problema es demasiado grande, no lo hace él mismo. Lo divide en varios sub-problemas más pequeños. Importante: Los sub-problemas son del mismo tipo que el original, solo que más pequeños.</p>
+
+          <p>Vencer: Delega (llama recursivamente) a "expertos" para que resuelvan cada sub-problema. Si un sub-problema es tan pequeño que es obvio (el "caso trivial" o "caso base"), se resuelve directamente.</p>
+
+          <p>Combinar: Una vez que los "expertos" devuelven sus soluciones, el jefe las toma y las "ensambla" para crear la solución final al problema original.</p>
+        </section>
+
+        <section>
+          <h2 id="esquema-general" class="section-title">2. El Esquema General</h2>
+          <p>Casi todos los algoritmos de DyV siguen esta plantilla recursiva:</p>
+          <pre class="codeblock"><code>funcion DyV(problema):
+  
+  // 2. Vencer (Caso Base)
+  si trivial(problema):
+    devolver solucion_trivial
+  
+  // 1. Dividir
+  sino:
+    {p1, p2, ... pk} = descomponer(problema)
+    
+    // 2. Vencer (Llamadas Recursivas)
+    s1 = DyV(p1)
+    s2 = DyV(p2)
+    ...
+    sk = DyV(pk)
+    
+    // 3. Combinar
+    solucion_final = combinar(s1, s2, ... sk)
+    devolver solucion_final
+</code></pre>
+        </section>
+
+        <section>
+          <h2 id="espectro" class="section-title">3. El Espectro del DyV: ¿Dónde está el Trabajo?</h2>
+          <p>No todos los algoritmos DyV son iguales. El trabajo (la complejidad) puede estar en el paso "Dividir" o en el paso "Combinar".</p>
+
+          <div class="example">
+            <h4>Extremo 1: Combinación Costosa (Ej. <a href="merge-short.html">Mergesort</a>)</h4>
+            <p>Dividir: Es gratis. Simplemente calculas la mitad del vector (O(1)).</p>
+            <p>Combinar: Es costoso. Tienes que Fusionar (merge) dos vectores ya ordenados, lo que requiere un recorrido lineal (O(n)).</p>
+          </div>
+
+          <div class="mt-06">
+            <h4>Extremo 2: División Costosa (Ej. Quicksort)</h4>
+            <p>Dividir: Es costoso. Tienes que Pivotar el vector, comparando y moviendo n elementos (O(n)).</p>
+            <p>Combinar: Es gratis. Como los elementos ya están en su sitio (&lt; pivote | pivote | &gt; pivote), no hay nada que hacer (O(1)).</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 id="analisis-costes" class="section-title">4. El Análisis de Costes (Lo que importa en Ingeniería)</h2>
+          <p>Para analizar el coste de un algoritmo DyV, usamos Ecuaciones de Recurrencia. La más común es:</p>
+          <p class="note"><strong><span class="math">T(n) = aT(n/b) + O(n^k)</span></strong></p>
+
+          <p>Donde:</p>
+          <ul>
+            <li><strong>T(n):</strong> El tiempo para resolver un problema de tamaño n.</li>
+            <li><strong>a:</strong> El número de sub-problemas en los que divides (cuántas llamadas recursivas haces).</li>
+            <li><strong>n/b:</strong> El tamaño de cada sub-problema (ej. n/2 significa b=2).</li>
+            <li><strong>O(n^k):</strong> El coste de Dividir + Combinar en cada paso.</li>
+          </ul>
+
+          <p>Esto se resuelve con el Teorema Maestro, que nos da 3 casos:</p>
+
+          <h3>Caso Equilibrado: O(n log n) (Ej. <a href="merge-short.html">Mergesort</a>, Quicksort, Skyline, Puntos Cercanos)</h3>
+          <p>Ocurre cuando el coste de Dividir/Combinar es lineal (O(n)) y lo divides en 2 mitades (a=2, b=2, k=1).</p>
+          <p>Ecuación: <code class="math-inline">T(n) = 2T(n/2) + O(n).</code></p>
+          <p>Intuición: El trabajo en cada "nivel" del árbol de recursión es el mismo (siempre O(n)), y hay log n niveles. Total: O(n log n).</p>
+
+          <h3>Caso de Reducción: O(log n) (Ej. Búsqueda Binaria, Exponenciación Rápida)</h3>
+          <p>Ocurre cuando Dividir/Combinar es constante (O(1)) y solo sigues con un sub-problema.</p>
+          <p>Ecuación: <code class="math-inline">T(n) = 1T(n/2) + O(1).</code></p>
+          <p>Intuición: "Desechas" la mitad del problema en cada paso.</p>
+
+          <h3>Caso Costoso: O(n^2) o más (Ej. Liga de Equipos, Puzzle Tromino)</h3>
+          <p>Ocurre cuando el coste de Dividir/Combinar es más pesado que la recursión (ej. O(n^2)) o cuando el número de sub-problemas (a) es muy grande.</p>
+          <p>Ejemplo - Liga de Equipos: T(n) = 2T(n/2) + O(n^2) → El O(n^2) de la combinación domina. Coste: O(n^2).</p>
+          <p>Ejemplo - Puzzle Tromino: T(n) = 4T(n/2) + O(1) → El a=4 domina. Coste: O(n^(log_2 4)) = O(n^2).</p>
+        </section>
+
+        <section id="afrontar-problemas">
+          <h2 class="section-title">5. Cómo Afrontar los Problemas del Capítulo 4</h2>
+          <p>Cuando leas un problema, hazte estas preguntas:</p>
+
+          <h4>Paso 1: ¿Puedo dividir el problema en mitades (o partes) que sean independientes?</h4>
+          <p>Ej: Multiplicar n números grandes (Ej. 3) → Sí, el problema se puede descomponer.</p>
+          <p>Ej: Ordenar un vector (Mergesort) → Sí, puedo ordenar la mitad izquierda y la mitad derecha por separado.</p>
+          <p>Ej: Encontrar <code class="inline">V[i] = i</code> (Ej. 4) → Sí, si miro <code class="inline">V[mid]</code> y es <code class="inline">&lt; mid</code>, sé que la solución no puede estar en la mitad izquierda. Es una "reducción".</p>
+
+          <h4>Paso 2: Asume que tienes las soluciones de las mitades. ¿Cómo las combinas? Este es el paso creativo.</h4>
+
+          <p>Problema: Encontrar <code class="inline">V[i] = i</code> en un vector ordenado (Ej. 4).</p>
+
+          <p>Hipótesis: Es una búsqueda. Usemos Búsqueda Binaria.</p>
+
+          <p>Dividir: Mira el elemento del medio, <code class="inline">V[mid]</code> en la posición <code class="inline">mid</code>.</p>
+
+          <p>Combinar/Vencer:</p>
+          <ul>
+            <li><code class="inline">V[mid] == mid</code> → ¡Encontrado! (Caso Base).</li>
+            <li><code class="inline">V[mid] &gt; mid</code> → El elemento que busco (ej. <code class="inline">V[5]=5</code>) no puede estar a la derecha, porque <code class="inline">V[mid+1]</code> será &gt; <code class="inline">mid+1</code>. Solo tengo que buscar recursivamente en la mitad izquierda.</li>
+            <li><code class="inline">V[mid] &lt; mid</code> → Análogo, solo busco en la mitad derecha.</li>
+          </ul>
+
+          <p>Análisis: <span class="math">T(n) = 1T(n/2) + O(1).</span> Esto es O(log n). Es un algoritmo DyV de "reducción pura".</p>
+
+          <p>Problema: Calcular <code class="inline">x^n</code> (Ej. 5).</p>
+
+          <p>Hipótesis: Puedo dividir <code class="inline">n</code>.</p>
+
+          <p>Dividir/Combinar:</p>
+          <p>Si n es par: <code class="math-inline">x^n = (x^(n/2)) * (x^(n/2))</code>.</p>
+          <p>Si n es impar: <code class="math-inline">x^n = x * (x^((n-1)/2)) * (x^((n-1)/2))</code>.</p>
+
+          <p>Análisis: En cada paso, calculas <code class="inline">DyV(x, n/2)</code> una sola vez y guardas el resultado. Luego lo multiplicas por sí mismo.</p>
+
+          <p>Ecuación: <span class="math">T(n) = 1T(n/2) + O(1)</span> (coste de una multiplicación). Coste: O(log n).</p>
+
+          <p>Problema: Elemento Mayoritario (Ej. 8, como en el Cap. 4.5).</p>
+
+          <p>Hipótesis: Si existe un mayoritario global, tiene que ser el mayoritario de la mitad izquierda O el mayoritario de la mitad derecha.</p>
+
+          <p>Dividir: Parte el vector en dos mitades (O(1)).</p>
+
+          <p>Vencer: Llama recursivamente <code class="inline">m_izq = Mayoritario(mitad_izq)</code> y <code class="inline">m_der = Mayoritario(mitad_der)</code> (<code class="math-inline">2T(n/2)</code>).</p>
+
+          <p>Combinar: Este es el paso clave (O(n)).</p>
+
+          <p>Recorre el vector completo (de i a j) y cuenta las apariciones de <code class="inline">m_izq</code>.</p>
+          <p>Recorre el vector completo y cuenta las apariciones de <code class="inline">m_der</code>.</p>
+
+          <p>Si las cuentas de <code class="inline">m_izq &gt; n/2</code>, devueles <code class="inline">m_izq</code>.</p>
+          <p>Si las cuentas de <code class="inline">m_der &gt; n/2</code>, devuelves <code class="inline">m_der</code>.</p>
+          <p>Si no, devuelves "ninguno".</p>
+
+          <p>Análisis: <span class="math">T(n) = 2T(n/2) + O(n).</span> Coste: O(n log n).</p>
+        </section>
+
+        <section class="nav-links">
+          <h3>Enlaces rápidos</h3>
+          <ul>
+            <li><a href="merge-short.html">Mergesort — explicación detallada (Cap. 4, sección: mezcla)</a></li>
+            <li><a href="preda-book.html">Volver al índice del libro PREDA</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <aside class="toc" aria-label="Índice del capítulo">
+        <strong>Contenido del capítulo</strong>
+        <ul>
+          <li><a href="#idea-central">1. La Idea Central</a></li>
+          <li><a href="#esquema-general">2. El Esquema General</a></li>
+          <li><a href="#espectro">3. El Espectro del DyV</a></li>
+          <li><a href="#analisis-costes">4. El Análisis de Costes</a></li>
+          <li><a href="#afrontar-problemas">5. Cómo Afrontar los Problemas</a></li>
+        </ul>
+        <hr/>
+  <div class="mt-06"><a href="merge-short.html">Ir a Mergesort</a></div>
+      </aside>
+    </div>
+
+    <footer class="page-footer">© 2025 — Proyecto PREDA (UNED)</footer>
+  </main>
+</body>
+</html>

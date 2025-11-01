@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación de Mergesort - PREDA UNED</title>
+
+    <link rel="stylesheet" href="dist/css/main.css">
+</head>
+
+<body>
+
+    <div class="mergesort-container">
+
+        <header class="page-header">
+            <h1>Algoritmos de Ordenamiento: Mergesort</h1>
+            <p>Proyecto PREDA - UNED</p>
+        </header>
+
+        <main>
+
+            <section class="content-block">
+                <h2>Introducción: La Enseñanza Unificada</h2>
+                <div class="notice notice-info">
+                    <p><strong>Mergesort</strong> (Ordenamiento por Mezcla) es la quintaesencia de la estrategia
+                        algorítmica "**Divide y Vencerás**" (Divide and Conquer). Su filosofía no es abordar un gran
+                        problema de frente, sino dividirlo en problemas tan pequeños que se vuelven triviales de
+                        resolver, para luego, metódicamente, combinar esas soluciones simples hasta resolver el problema
+                        original.</p>
+                    <p>Es un algoritmo <strong>estable</strong> (respeta el orden relativo de elementos iguales) y
+                        increíblemente <strong>eficiente</strong>, manteniendo un rendimiento predecible de <strong>$O(n
+                            \log n)$</strong> sin importar si la lista está casi ordenada o es un caos total.</p>
+                </div>
+
+                <h3>Las Dos Fases</h3>
+                <ol>
+                    <li><strong>Fase de División (Split):</strong> Es una fase recursiva. Se toma la lista y se parte
+                        por la mitad. Luego, se toma cada mitad y se vuelve a partir, y así sucesivamente, hasta que
+                        solo nos quedan "listas" de un solo elemento. Una lista de un elemento, por definición, ya está
+                        ordenada.</li>
+                    <li><strong>Fase de Mezcla (Merge):</strong> Esta es la fase donde ocurre la magia. Se toman dos
+                        sub-listas <em>ya ordenadas</em> (empezando por las de un solo elemento) y se combinan (mezclan)
+                        en una nueva lista más grande, que también queda perfectamente ordenada. Este proceso de mezcla
+                        se repite "hacia arriba" en el árbol de recursión hasta que las dos mitades originales se unen
+                        en la lista final ordenada.</li>
+                </ol>
+            </section>
+
+            <section class="content-block">
+                <h2>Ejemplo Detallado: <code>[4, 2, 8, 6, 0, 5, 1, 7, 3, 9]</code></h2>
+                <p>Analizaremos cada llamada recursiva y cada comparación, basándonos en el ejemplo visual del video <a
+                        href="https://www.youtube.com/watch?v=XaqR3G_NVoo&t=28s" target="_blank"
+                        rel="noopener noreferrer">Merge Sort Algorithm</a> de mycodeschool.</p>
+
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/XaqR3G_NVoo?start=28"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+
+            <section class="content-block">
+                <h2>Seguimiento Paso a Paso (Traza de Ejecución)</h2>
+                <p>El seguimiento de Mergesort es un seguimiento de la pila de llamadas recursivas. Todos los pasos se
+                    muestran expandidos.</p>
+
+                <div class="mergesort-steps">
+                    <div class="step step-level-0">
+                        <h4>Nivel 0: Llamada Inicial <code>Sort([4, 2, 8, 6, 0, 5, 1, 7, 3, 9])</code></h4>
+                        <div class="step__content">
+                            <p>Dividimos la lista de 10 elementos. El medio es el índice 4. ( (0+9) / 2 = 4 ).</p>
+                            <ul>
+                                <li><strong>Mitad Izquierda (A):</strong> <code>[4, 2, 8, 6, 0]</code> (índices 0-4)
+                                </li>
+                                <li><strong>Mitad Derecha (B):</strong> <code>[5, 1, 7, 3, 9]</code> (índices 5-9)</li>
+                            </ul>
+                            <p>El algoritmo ahora debe resolver <code>Sort(A)</code> antes de poder hacer nada con
+                                <code>B</code>.</p>
+
+                            <div class="step step-level-1">
+                                <h5>Nivel 1: Llamada <code>Sort(A: [4, 2, 8, 6, 0])</code></h5>
+                                <div class="step__content">
+                                    <p>Dividimos. Medio en índice 2. ( (0+4) / 2 = 2 ).</p>
+                                    <ul>
+                                        <li><strong>Mitad Izquierda (A1):</strong> <code>[4, 2, 8]</code> (índices 0-2)
+                                        </li>
+                                        <li><strong>Mitad Derecha (A2):</strong> <code>[6, 0]</code> (índices 3-4)</li>
+                                    </ul>
+                                    <p>Debe resolver <code>Sort(A1)</code> primero.</p>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2: Llamada <code>Sort(A1: [4, 2, 8])</code></h6>
+                                        <div class="step__content">
+                                            <p>Dividimos. Medio en índice 1. ( (0+2) / 2 = 1 ).</p>
+                                            <ul>
+                                                <li><strong>Mitad Izquierda (A1a):</strong> <code>[4, 2]</code></li>
+                                                <li><strong>Mitad Derecha (A1b):</strong> <code>[8]</code></li>
+                                            </ul>
+                                            <p>Debe resolver <code>Sort(A1a)</code> primero.</p>
+
+                                            <div class="step step-level-3">
+                                                <p><strong>Nivel 3: Llamada <code>Sort(A1a: [4, 2])</code></strong></p>
+                                                <div class="step__content">
+                                                    <p>Dividimos. Medio en índice 0. ( (0+1) / 2 = 0 ).</p>
+                                                    <ul>
+                                                        <li><strong>Mitad Izquierda (A1a-i):</strong> <code>[4]</code>
+                                                        </li>
+                                                        <li><strong>Mitad Derecha (A1a-ii):</strong> <code>[2]</code>
+                                                        </li>
+                                                    </ul>
+                                                    <p><strong>Nivel 4 (Caso Base):</strong> <code>Sort([4])</code>
+                                                        retorna <code>[4]</code>.</p>
+                                                    <p><strong>Nivel 4 (Caso Base):</strong> <code>Sort([2])</code>
+                                                        retorna <code>[2]</code>.</p>
+
+                                                    <p class="merge"><strong>🔼 Nivel 3: Mezclando <code>[4]</code> y
+                                                            <code>[2]</code></strong></p>
+                                                    <ol>
+                                                        <li>Compara (4) y (2). 2 es menor. Resultado: <code>[2]</code>
+                                                        </li>
+                                                        <li>Pila derecha vacía. Añade 4. Resultado: <code>[2, 4]</code>
+                                                        </li>
+                                                    </ol>
+                                                    <p><strong>Retorna <code>[2, 4]</code></strong></p>
+                                                </div>
+                                            </div>
+
+                                            <p><strong>Nivel 3 (Caso Base):</strong> Ahora <code>Sort(A1b: [8])</code>.
+                                                <strong>Retorna <code>[8]</code></strong>.</p>
+
+                                            <p class="merge"><strong>🔼 Nivel 2: Mezclando <code>[2, 4]</code> y
+                                                    <code>[8]</code></strong></p>
+                                            <ol>
+                                                <li>Compara (2) y (8). 2 es menor. Resultado: <code>[2]</code></li>
+                                                <li>Compara (4) y (8). 4 es menor. Resultado: <code>[2, 4]</code></li>
+                                                <li>Pila izquierda vacía. Añade 8. Resultado: <code>[2, 4, 8]</code>
+                                                </li>
+                                            </ol>
+                                            <p><strong>Retorna <code>[2, 4, 8]</code></strong></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2: Llamada <code>Sort(A2: [6, 0])</code></h6>
+                                        <div class="step__content">
+                                            <p>Dividimos. Medio en índice 0.</p>
+                                            <ul>
+                                                <li><strong>Mitad Izquierda (A2a):</strong> <code>[6]</code></li>
+                                                <li><strong>Mitad Derecha (A2b):</strong> <code>[0]</code></li>
+                                            </ul>
+                                            <p><strong>Nivel 3 (Caso Base):</strong> <code>Sort([6])</code> retorna
+                                                <code>[6]</code>.</p>
+                                            <p><strong>Nivel 3 (Caso Base):</strong> <code>Sort([0])</code> retorna
+                                                <code>[0]</code>.</p>
+
+                                            <p class="merge"><strong>🔼 Nivel 2: Mezclando <code>[6]</code> y
+                                                    <code>[0]</code></strong></p>
+                                            <ol>
+                                                <li>Compara (6) y (0). 0 es menor. Resultado: <code>[0]</code></li>
+                                                <li>Pila derecha vacía. Añade 6. Resultado: <code>[0, 6]</code></li>
+                                            </ol>
+                                            <p><strong>Retorna <code>[0, 6]</code></strong></p>
+                                        </div>
+                                    </div>
+
+                                    <p class="merge"><strong>🔼 Nivel 1: Mezclando <code>[2, 4, 8]</code> y
+                                            <code>[0, 6]</code></strong></p>
+                                    <ol>
+                                        <li>Compara (2) y (0). 0 es menor. Resultado: <code>[0]</code></li>
+                                        <li>Compara (2) y (6). 2 es menor. Resultado: <code>[0, 2]</code></li>
+                                        <li>Compara (4) y (6). 4 es menor. Resultado: <code>[0, 2, 4]</code></li>
+                                        <li>Compara (8) y (6). 6 es menor. Resultado: <code>[0, 2, 4, 6]</code></li>
+                                        <li>Pila derecha vacía. Añade 8. Resultado: <code>[0, 2, 4, 6, 8]</code></li>
+                                    </ol>
+                                    <p><strong>Retorna <code>[0, 2, 4, 6, 8]</code>.</strong></p>
+                                </div>
+                            </div>
+
+                            <div class="step step-level-1">
+                                <h5>Nivel 1: Llamada <code>Sort(B: [5, 1, 7, 3, 9])</code></h5>
+                                <div class="step__content">
+                                    <p>Dividimos. Medio en 2.</p>
+                                    <ul>
+                                        <li><strong>Mitad Izquierda (B1):</strong> <code>[5, 1, 7]</code></li>
+                                        <li><strong>Mitad Derecha (B2):</strong> <code>[3, 9]</code></li>
+                                    </ul>
+                                    <p>Debe resolver <code>Sort(B1)</code>.</p>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2: Llamada <code>Sort(B1: [5, 1, 7])</code></h6>
+                                        <div class="step__content">
+                                            <p>Dividimos. Medio en 1.</p>
+                                            <ul>
+                                                <li><strong>Mitad Izquierda (B1a):</strong> <code>[5, 1]</code></li>
+                                                <li><strong>Mitad Derecha (B1b):</strong> <code>[7]</code></li>
+                                            </ul>
+                                            <p><strong>Nivel 3:</strong> <code>Sort([5, 1])</code> se divide, mezcla y
+                                                <strong>retorna <code>[1, 5]</code></strong>.</p>
+                                            <p><strong>Nivel 3 (Caso Base):</strong> <code>Sort([7])</code>
+                                                <strong>retorna <code>[7]</code></strong>.</p>
+
+                                            <p class="merge"><strong>🔼 Nivel 2: Mezclando <code>[1, 5]</code> y
+                                                    <code>[7]</code></strong></p>
+                                            <ol>
+                                                <li>Compara (1) y (7). 1 es menor. Resultado: <code>[1]</code></li>
+                                                <li>Compara (5) y (7). 5 es menor. Resultado: <code>[1, 5]</code></li>
+                                                <li>Pila izquierda vacía. Añade 7. Resultado: <code>[1, 5, 7]</code>
+                                                </li>
+                                            </ol>
+                                            <p><strong>Retorna <code>[1, 5, 7]</code></strong></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2: Llamada <code>Sort(B2: [3, 9])</code></h6>
+                                        <div class="step__content">
+                                            <p><strong>Nivel 3:</strong> <code>Sort([3, 9])</code> se divide, mezcla y
+                                                <strong>retorna <code>[3, 9]</code></strong>.</p>
+                                        </div>
+                                    </div>
+
+                                    <p class="merge"><strong>🔼 Nivel 1: Mezclando <code>[1, 5, 7]</code> y
+                                            <code>[3, 9]</code></strong></p>
+                                    <ol>
+                                        <li>Compara (1) y (3). 1 es menor. Resultado: <code>[1]</code></li>
+                                        <li>Compara (5) y (3). 3 es menor. Resultado: <code>[1, 3]</code></li>
+                                        <li>Compara (5) y (9). 5 es menor. Resultado: <code>[1, 3, 5]</code></li>
+                                        <li>Compara (7) y (9). 7 es menor. Resultado: <code>[1, 3, 5, 7]</code></li>
+                                        <li>Pila izquierda vacía. Añade 9. Resultado: <code>[1, 3, 5, 7, 9]</code></li>
+                                    </ol>
+                                    <p><strong>Retorna <code>[1, 3, 5, 7, 9]</code>.</strong></p>
+                                </div>
+                            </div>
+
+                            <p class="merge merge-final"><strong>🔼 Nivel 0: Mezcla Final</strong></p>
+                            <p>Ahora la llamada inicial tiene sus dos mitades, ambas ordenadas:</p>
+                            <ul>
+                                <li><strong>Mitad Izquierda (A):</strong> <code>[0, 2, 4, 6, 8]</code></li>
+                                <li><strong>Mitad Derecha (B):</strong> <code>[1, 3, 5, 7, 9]</code></li>
+                            </ul>
+                            <p>Comenzamos la mezcla final:</p>
+                            <ol>
+                                <li>Compara (0) y (1). 0 es menor. Resultado: <code>[0]</code></li>
+                                <li>Compara (2) y (1). 1 es menor. Resultado: <code>[0, 1]</code></li>
+                                <li>Compara (2) y (3). 2 es menor. Resultado: <code>[0, 1, 2]</code></li>
+                                <li>Compara (4) y (3). 3 es menor. Resultado: <code>[0, 1, 2, 3]</code></li>
+                                <li>Compara (4) y (5). 4 es menor. Resultado: <code>[0, 1, 2, 3, 4]</code></li>
+                                <li>Compara (6) y (5). 5 es menor. Resultado: <b><code>[0, 1, 2, 3, 4, 5]</code></b>
+                                </li>
+                                <li>Compara (6) y (7). 6 es menor. Resultado: <code>[0, 1, 2, 3, 4, 5, 6]</code></li>
+                                <li>Compara (8) y (7). 7 es menor. Resultado: <code>[0, 1, 2, 3, 4, 5, 6, 7]</code></li>
+                                <li>Compara (8) y (9). 8 es menor. Resultado: <code>[0, 1, 2, 3, 4, 5, 6, 7, 8]</code>
+                                </li>
+                                <li>Pila izquierda vacía. Añade 9. Resultado:
+                                    <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></li>
+                            </ol>
+                            <p class="final-result"><strong>El algoritmo retorna el resultado final:
+                                    <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="page-footer">
+            <p>&copy; 2025 - Proyecto PREDA (Programación y Estructuras de Datos Avanzadas) - UNED</p>
+            <p class="mt-05"><a href="preda-book.html">← Volver al índice del libro PREDA</a></p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

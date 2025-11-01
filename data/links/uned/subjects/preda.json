@@ -1,1 +1,7 @@
-[]
+[
+	{
+		"title": "Libro PREDA — Explicaciones",
+		"url": "preda-book.html",
+		"description": "Índice del libro PREDA. Contiene capítulos con explicaciones (p.ej. Mergesort)."
+	}
+]

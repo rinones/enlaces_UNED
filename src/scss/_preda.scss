@@ -1,0 +1,67 @@
+/* Preda / Book shared styles migrated from inline <style> blocks */
+
+:root{
+  --book-bg:#ffffff;
+  --muted:#6b7280;
+  --accent:#004a98;
+  --panel:#f6f8fb;
+}
+
+body{
+  background:linear-gradient(180deg,#fbfdff,#f3f6fb);
+  color:#12202b;
+}
+
+.cap-container{
+  max-width:980px;
+  margin:2rem auto;
+  padding:1.25rem 1.5rem;
+  background:var(--book-bg);
+  border:1px solid #e6e6e6;
+  border-radius:10px;
+  box-shadow:0 6px 20px rgba(16,24,40,0.06);
+}
+
+.cap-header{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.cap-header h1{margin:0;font-size:1.6rem;color:var(--accent)}
+.cap-meta{color:var(--muted);font-size:.95rem}
+.note{background:var(--panel);padding:.9rem;border-radius:8px;border:1px solid #e9f0fb;color:#14385a}
+
+pre.codeblock{
+  background:#0f1724;color:#e6eef6;padding:1rem;border-radius:8px;overflow:auto;
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-size:0.95rem;line-height:1.5;
+}
+
+code.inline, code.math-inline{
+  background:#f3f6fb;padding:.08rem .28rem;border-radius:4px;border:1px solid #e6eef8;
+  color:#0b2746;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+}
+
+span.math{display:inline-block;background:#fff9f6;border-left:3px solid #ffd08a;padding:.06rem .5rem;border-radius:4px;color:#5a3d00;font-weight:600;margin:0 .15rem}
+.variable{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;background:transparent;padding:0 .15rem}
+
+.toc{border-left:4px solid var(--accent);padding:0.8rem 1rem;margin:1rem 0;border-radius:6px;background:#fbfdff}
+.toc ul{margin:.4rem 0 0 0;padding:0 0 0 1rem}
+.toc a{color:var(--accent);text-decoration:none}
+
+.section-title{color:var(--accent);margin-top:1.25rem}
+.example{background:#fff8e6;border:1px solid #ffe7a8;padding:.8rem;border-radius:6px;color:#5a3d00}
+.nav-links{margin-top:1.25rem}
+.page-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.45rem .7rem;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none;font-size:.9rem}
+
+/* Back link used on PREDA pages */
+.back-link{display:inline-block;color:var(--accent);text-decoration:none;margin-top:1rem}
+.back-link:hover{text-decoration:underline}
+
+/* small responsive tweaks used in PREDA pages */
+@media(min-width:980px){
+  .layout{display:grid;grid-template-columns:1fr 280px;gap:1.25rem}
+  .toc{position:sticky;top:1.25rem;height:fit-content}
+}
+
+/* Utility classes to replace inline styles */
+.page-footer{margin-top:1.5rem;color:#666;font-size:.9rem}
+.mt-06{margin-top:.6rem}
+.mt-05{margin-top:.5rem}
