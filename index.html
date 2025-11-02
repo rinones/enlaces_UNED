@@ -6,11 +6,7 @@
   <title>Enlaces - Inicio</title>
   <link rel="stylesheet" href="dist/css/main.css">
 </head>
-<body>
-  <script>
-    // Config automático: el loader usa ficheros modulares data/links/home.json por defecto
-    // Puedes forzar con: window.LINKS_KEY = 'home';
-  </script>
+<body data-links-key="home">
 
   <main class="container">
     <header class="site-header">
@@ -70,8 +66,7 @@
     <footer class="site-footer">
       <p>© Enlaces</p>
     </footer>
-  </div>
 
-  <script type="module" src="dist/js/main.js"></script>
+  <script src="dist/js/bundle.min.js"></script>
 </body>
 </html>

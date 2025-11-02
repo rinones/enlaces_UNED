@@ -6,11 +6,7 @@
   <title>Viajes</title>
   <link rel="stylesheet" href="dist/css/main.css">
 </head>
-<body>
-  <script>
-    // Config automático: el loader usa ficheros modulares data/links/travel.json por defecto en esta página
-    // Puedes forzar con: window.LINKS_KEY = 'travel';
-  </script>
+<body data-links-key="travel">
 
   <main class="container">
     <header class="site-header">
@@ -72,7 +68,7 @@
     </footer>
   </main>
 
-  <script type="module" src="dist/js/main.js"></script>
+  <script src="dist/js/bundle.min.js"></script>
 </body>
 
 </html>
