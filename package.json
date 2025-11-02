@@ -3,19 +3,12 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"prebuild:js": "node -e \"require('fs').mkdirSync('dist/js', { recursive: true })\"",
-		"build:js": "esbuild src/js/main.js --bundle --minify --sourcemap --format=iife --outfile=dist/js/bundle.min.js",
-		"watch:js": "esbuild src/js/main.js --bundle --sourcemap --format=iife --outfile=dist/js/bundle.js --watch",
 		"prebuild:sass": "node -e \"require('fs').mkdirSync('dist/css', { recursive: true })\"",
 		"build:sass": "sass src/scss/main.scss dist/css/main.css --style=expanded",
 		"prewatch:sass": "node -e \"require('fs').mkdirSync('dist/css', { recursive: true })\"",
-		"watch:sass": "sass --watch src/scss/main.scss:dist/css/main.css",
-		"build": "npm run prebuild:js && npm run build:sass && npm run build:js",
-		"dev": "npm run prebuild:js && concurrently \"npm:watch:sass\" \"npm:watch:js\""
+		"watch:sass": "sass --watch src/scss/main.scss:dist/css/main.css"
 	},
 	"devDependencies": {
-		"concurrently": "^9.2.1",
-		"esbuild": "^0.24.2",
 		"sass": "^1.78.0"
 	}
 }

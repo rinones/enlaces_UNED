@@ -20,10 +20,7 @@ function pathFromKey(key){
 
 export function loadLinks(){
   const explicitPath = (window && window.LINKS_PATH) ? String(window.LINKS_PATH) : null; // legacy override
-  const dataKey = (document && document.body && document.body.dataset && document.body.dataset.linksKey)
-    ? String(document.body.dataset.linksKey)
-    : null;
-  const key = dataKey || ((window && window.LINKS_KEY) ? String(window.LINKS_KEY) : inferLinksKeyFromPath());
+  const key = (window && window.LINKS_KEY) ? String(window.LINKS_KEY) : inferLinksKeyFromPath();
   const modularPath = pathFromKey(key);
   const tryModular = modularPath ? fetchJSON(modularPath) : Promise.resolve(null);
   return tryModular.then(json=>{

@@ -6,7 +6,11 @@
   <title>Contenido</title>
   <link rel="stylesheet" href="dist/css/main.css">
 </head>
-<body data-links-key="content">
+<body>
+  <script>
+    // Config automático: el loader usa ficheros modulares data/links/content.json por defecto en esta página
+    // Puedes forzar con: window.LINKS_KEY = 'content';
+  </script>
 
   <main class="container">
     <header class="site-header">
@@ -68,6 +72,6 @@
     </footer>
   </main>
 
-  <script src="dist/js/bundle.min.js"></script>
+  <script type="module" src="dist/js/main.js"></script>
 </body>
 </html>

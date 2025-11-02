@@ -1,7 +1,7 @@
 import { $, fetchJSON, inferSubjectFromPath, inferLinksKeyFromPath } from './utils.js';
 
 function today0(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
-function parseYMD(ymd){ const m=/(^\d{4})-(\d{2})-(\d{2})$/.exec(String(ymd||'')); if(!m) return null; return new Date(+m[1], +m[2]-1, +m[3]); }
+function parseYMD(ymd){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(ymd||'')); if(!m) return null; return new Date(+m[1], +m[2]-1, +m[3]); }
 function formatShort(d){ try{ return d.toLocaleDateString('es-ES', {day:'2-digit', month:'short'}); }catch(_){ const mm=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return dd+'/'+mm; } }
 
 async function fromLS(){
