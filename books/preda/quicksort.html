@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación de Quicksort - PREDA UNED</title>
+
+    <link rel="stylesheet" href="../../dist/css/main.css">
+</head>
+
+<body>
+
+    <div class="quicksort-container">
+
+        <header class="page-header">
+            <h1>Algoritmos de Ordenamiento: Quicksort</h1>
+            <p>Proyecto PREDA - UNED</p>
+        </header>
+
+        <main>
+
+            <section class="content-block">
+                <h2>Introducción: El Poder de la Partición</h2>
+                <div class="notice notice-info">
+                    <p><strong>Quicksort</strong> (Ordenamiento Rápido) es un algoritmo de <strong>"Divide y
+                            Vencerás"</strong>. A diferencia de Mergesort, donde el trabajo principal ocurre al
+                        *combinar* las soluciones, en Quicksort la clave está en la fase de *descomposición* o
+                        <strong>partición</strong>.</p>
+                    <p>El algoritmo selecciona un elemento (el <strong>pivote</strong>) y reorganiza el array "in-situ"
+                        (sin usar memoria extra) para que todos los elementos menores queden a un lado y los mayores al
+                        otro. Una vez hecho esto, el pivote ya está en su posición ordenada final.</p>
+                    <p>Su eficiencia promedio es <strong>O(n log n)</strong>, lo que lo hace uno de los algoritmos
+                        más rápidos en la práctica. Sin embargo, su peor caso (con un mal pivote, como en un array ya
+                        ordenado) puede decaer a <strong>O(n^2)</strong>.</p>
+                </div>
+
+                <h3>Las Tres Fases del Algoritmo</h3>
+                <ol>
+                    <li><strong>Elegir un Pivote:</strong> Se selecciona un elemento del array.</li>
+                    <li><strong>Partición:</strong> Se reordena el array. Los elementos menores que el pivote se colocan
+                        antes, y los mayores después. El pivote queda en su posición final.</li>
+                    <li><strong>Recursión:</strong> Se repiten (1) y (2) en las dos sub-listas (la de menores y la de
+                        mayores).</li>
+                </ol>
+            </section>
+
+            <section class="content-block">
+                <h2>Visualización: El "Baile" del Pivote Móvil</h2>
+                <p>Quicksort es una "familia" de algoritmos, y la implementación de la fase de
+                    <strong>partición</strong> puede variar. La siguiente visualización de <strong>AlgoRythmics</strong>
+                    es una de las más famosas y utiliza un método donde el pivote (el "Líder" de rojo) "baila" o
+                    intercambia su posición con los elementos que va encontrando.</p>
+
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ywWBy6J5gz8"
+                        title="YouTube video player: Quick-sort with Hungarian (Küküllőmenti legényes) folk dance"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <h3>Traza Detallada: Método del Video (Pivote Móvil)</h3>
+                <p>Si aplicamos la lógica del "baile" del video a tu lista <code>[3, 0, 1, 8, 7, 2, 5, 4, 9, 6]</code>,
+                    este sería el desarrollo completo:</p>
+                <div class="quicksort-steps">
+                    <div class="step">
+                        <h4>Nivel 0: <code>Sort(i=0, j=9)</code></h4>
+                        <div class="step__content">
+                            <p class="array-state">[<strong>3</strong>, 0, 1, 8, 7, 2, 5, 4, 9, 6]</p>
+                            <ul>
+                                <li><strong>Pivote (Valor) = 3</strong>. Posición actual del pivote: <code>p=0</code>.
+                                </li>
+                                <li>Scan <code>J</code> (derecha) busca <code>&lt; 3</code>. Encuentra <code>2</code> en
+                                    <code>j=5</code>.</li>
+                                <li><strong>SWAP!</strong> Intercambia pivote <code>T[p=0]</code>(3) y
+                                    <code>T[j=5]</code>(2).</li>
+                                <li class="array-state">[<strong>2</strong>, 0, 1, 8, 7, <strong>3</strong>, 5, 4, 9, 6]
+                                    (Pivote ahora en <code>p=5</code>).</li>
+                                <li>Scan <code>I</code> (izquierda, desde <code>i=0</code>) busca <code>> 3</code>.
+                                    Encuentra <code>8</code> en <code>i=3</code>.</li>
+                                <li><strong>SWAP!</strong> Intercambia pivote <code>T[p=5]</code>(3) y
+                                    <code>T[i=3]</code>(8).</li>
+                                <li class="array-state">[2, 0, 1, <strong>3</strong>, 7, <strong>8</strong>, 5, 4, 9, 6]
+                                    (Pivote ahora en <code>p=3</code>).</li>
+                                <li>Scan <code>J</code> (derecha, desde <code>j=5</code>) busca <code>&lt; 3</code>.
+                                    `T[5]=8` (no), `T[4]=7` (no). `j` choca con `p=3`.</li>
+                                <li>Punteros se cruzan.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>3</code> ha encontrado su lugar en
+                                    <code>p=3</code>.</strong></p>
+                            <p>Llamadas recursivas:</p>
+                            <ul>
+                                <li><code>Sort(i=0, j=2)</code> para <code>[2, 0, 1]</code></li>
+                                <li><code>Sort(i=4, j=9)</code> para <code>[7, 8, 5, 4, 9, 6]</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h5>Nivel 1 (Izq): <code>Sort(i=0, j=2)</code></h5>
+                        <div class="step__content">
+                            <p class="array-state">[<strong>2</strong>, 0, 1]</p>
+                            <ul>
+                                <li><strong>Pivote = 2</strong>. Posición <code>p=0</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=2</code>) busca <code>&lt; 2</code>. Encuentra
+                                    <code>1</code> en <code>j=2</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=0]</code>(2) y <code>T[j=2]</code>(1).</li>
+                                <li class="array-state">[<strong>1</strong>, 0, <strong>2</strong>] (Pivote ahora en
+                                    <code>p=2</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=0</code>) busca <code>> 2</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=2</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>2</code> ha encontrado su lugar en
+                                    <code>p=2</code>.</strong></p>
+                            <p>Llamada: <code>Sort(i=0, j=1)</code> para <code>[1, 0]</code>.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h5>Nivel 1 (Der): <code>Sort(i=4, j=9)</code></h5>
+                        <div class="step__content">
+                            <p class="array-state">[...3, <strong>7</strong>, 8, 5, 4, 9, 6]</p>
+                            <ul>
+                                <li><strong>Pivote = 7</strong>. Posición <code>p=4</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=9</code>) busca <code>&lt; 7</code>. Encuentra
+                                    <code>6</code> en <code>j=9</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=4]</code>(7) y <code>T[j=9]</code>(6).</li>
+                                <li class="array-state">[...3, <strong>6</strong>, 8, 5, 4, 9, <strong>7</strong>]
+                                    (Pivote en <code>p=9</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=4</code>) busca <code>> 7</code>. Encuentra
+                                    <code>8</code> en <code>i=5</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=9]</code>(7) y <code>T[i=5]</code>(8).</li>
+                                <li class="array-state">[...3, 6, <strong>7</strong>, 5, 4, 9, <strong>8</strong>]
+                                    (Pivote en <code>p=5</code>).</li>
+                                <li>Scan <code>J</code> (desde <code>j=9</code>) busca <code>&lt; 7</code>. Encuentra
+                                    <code>4</code> en <code>j=7</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=5]</code>(7) y <code>T[j=7]</code>(4).</li>
+                                <li class="array-state">[...3, 6, <strong>4</strong>, 5, <strong>7</strong>, 9, 8]
+                                    (Pivote en <code>p=7</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=5</code>) busca <code>> 7</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=7</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>7</code> ha encontrado su lugar en
+                                    <code>p=7</code>.</strong></p>
+                            <p>Llamadas: <code>Sort(i=4, j=6)</code> para <code>[6, 4, 5]</code> y
+                                <code>Sort(i=8, j=9)</code> para <code>[9, 8]</code>.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h6>Nivel 2 (Izq-Izq): <code>Sort(i=0, j=1)</code></h6>
+                        <div class="step__content">
+                            <p class="array-state">[<strong>1</strong>, 0]</p>
+                            <ul>
+                                <li><strong>Pivote = 1</strong>. Posición <code>p=0</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=1</code>) busca <code>&lt; 1</code>. Encuentra
+                                    <code>0</code> en <code>j=1</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=0]</code>(1) y <code>T[j=1]</code>(0).</li>
+                                <li class="array-state">[<strong>0</strong>, <strong>1</strong>] (Pivote en
+                                    <code>p=1</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=0</code>) busca <code>> 1</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=1</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>1</code> ha encontrado su lugar en
+                                    <code>p=1</code>.</strong></p>
+                            <p class="base-case">Llamada a <code>Sort(i=0, j=0)</code> (trivial). Retorna.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h6>Nivel 2 (Der-Izq): <code>Sort(i=4, j=6)</code></h6>
+                        <div class="step__content">
+                            <p class="array-state">[...7, <strong>6</strong>, 4, 5]</p>
+                            <ul>
+                                <li><strong>Pivote = 6</strong>. Posición <code>p=4</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=6</code>) busca <code>&lt; 6</code>. Encuentra
+                                    <code>5</code> en <code>j=6</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=4]</code>(6) y <code>T[j=6]</code>(5).</li>
+                                <li class="array-state">[...7, <strong>5</strong>, 4, <strong>6</strong>] (Pivote en
+                                    <code>p=6</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=4</code>) busca <code>> 6</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=6</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>6</code> ha encontrado su lugar en
+                                    <code>p=6</code>.</strong></p>
+                            <p>Llamada: <code>Sort(i=4, j=5)</code> para <code>[5, 4]</code>.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <h6>Nivel 2 (Der-Der): <code>Sort(i=8, j=9)</code></h6>
+                        <div class="step__content">
+                            <p class="array-state">[...7, <strong>9</strong>, 8]</p>
+                            <ul>
+                                <li><strong>Pivote = 9</strong>. Posición <code>p=8</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=9</code>) busca <code>&lt; 9</code>. Encuentra
+                                    <code>8</code> en <code>j=9</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=8]</code>(9) y <code>T[j=9]</code>(8).</li>
+                                <li class="array-state">[...7, <strong>8</strong>, <strong>9</strong>] (Pivote en
+                                    <code>p=9</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=8</code>) busca <code>> 9</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=9</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>9</code> ha encontrado su lugar en
+                                    <code>p=9</code>.</strong></p>
+                            <p class="base-case">Llamada a <code>Sort(i=8, j=8)</code> (trivial). Retorna.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <p><strong>Nivel 3 (Última llamada): <code>Sort(i=4, j=5)</code></strong></p>
+                        <div class="step__content">
+                            <p class="array-state">[...6, <strong>5</strong>, 4]</p>
+                            <ul>
+                                <li><strong>Pivote = 5</strong>. Posición <code>p=4</code>.</li>
+                                <li>Scan <code>J</code> (desde <code>j=5</code>) busca <code>&lt; 5</code>. Encuentra
+                                    <code>4</code> en <code>j=5</code>.</li>
+                                <li><strong>SWAP!</strong> <code>T[p=4]</code>(5) y <code>T[j=5]</code>(4).</li>
+                                <li class="array-state">[...6, <strong>4</strong>, <strong>5</strong>] (Pivote en
+                                    <code>p=5</code>).</li>
+                                <li>Scan <code>I</code> (desde <code>i=4</code>) busca <code>> 5</code>. No encuentra.
+                                    <code>i</code> choca con <code>p=5</code>.</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Pivote <code>5</code> ha encontrado su lugar en
+                                    <code>p=5</code>.</strong></p>
+                            <p class="base-case">Llamada a <code>Sort(i=4, j=4)</code> (trivial). Retorna.</p>
+                        </div>
+                    </div>
+                    <p class="final-result">Todas las llamadas han retornado. El array final es
+                        <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</p>
+                </div>
+            </section>
+
+            <section class="content-block">
+                <h2>Diferencia Clave: Pivote Móvil (Video) vs. Pivote Fijo (PREDA)</h2>
+                <div class="notice notice-warning">
+                    <p><strong>¡Atención!</strong> Como se puede observar en las dos trazas anteriores, <strong>el
+                            quicksort de esos vídeos difiere del que se estudia en la asignatura</strong>.</p>
+                    <p>La diferencia clave es la que mencionaste: <strong>el pivote en el vídeo se mueve</strong> (se
+                        intercambia varias veces) durante la fase de partición. En cambio, en el algoritmo del texto
+                        base (conocido como <strong>Esquema de Hoare</strong>), el valor del pivote se almacena mientras los punteros
+                        intercambian otros elementos. El pivote solo "se mueve" al final para colocarse en su posición.</p>
+                </div>
+            </section>
+
+            <section class="content-block">
+                <h2>Seguimiento Paso a Paso (Método PREDA/UNED)</h2>
+                <p>A continuación, se desarrolla el ejemplo <code>[3, 0, 1, 8, 7, 2, 5, 4, 9, 6]</code> usando el método
+                    <code>Pivotar</code> del texto base.</p>
+
+                <div class="quicksort-steps">
+                    <div class="step step-level-0">
+                        <h4>Nivel 0: <code>Sort(T, i=0, j=9)</code></h4>
+                        <div class="step__content">
+                            <p class="array-state">[<strong>3</strong>, 0, 1, 8, 7, 2, 5, 4, 9, 6]</p>
+                            <ul>
+                                <li><strong>Pivote (Valor):</strong> <code>p = T[0] = 3</code>. (El <code>3</code> en
+                                    <code>T[0]</code> permanece fijo por ahora).</li>
+                                <li>Punteros: <code>k=0</code>, <code>l=10</code>.</li>
+                                <li>Scan <code>k</code> (busca <code>> 3</code>): se detiene en <code>T[3]=8</code>.
+                                    (<code>k=3</code>)</li>
+                                <li>Scan <code>l</code> (busca <code>&lt;= 3</code>): se detiene en <code>T[5]=2</code>.
+                                    (<code>l=5</code>)</li>
+                                <li><code>k < l</code> (3 < 5). Intercambia <code>T[k]</code> (8) y <code>T[l]</code>
+                                        (2).</li>
+                                <li class="array-state">[3, 0, 1, <strong>2</strong>, 7, <strong>8</strong>, 5, 4, 9, 6]
+                                </li>
+                                <li>Scan <code>k</code> (desde <code>k=3</code>, busca <code>> 3</code>): se detiene en
+                                    <code>T[4]=7</code>. (<code>k=4</code>)</li>
+                                <li>Scan <code>l</code> (desde <code>l=5</code>, busca <code>&lt;= 3</code>): se detiene
+                                    en <code>T[3]=2</code>. (<code>l=3</code>)</li>
+                                <li><code>k > l</code> (4 > 3). Los punteros se cruzan. Bucle termina.</li>
+                                <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                    (<code>T[0]=3</code>) con <code>T[l]</code> (<code>T[3]=2</code>).</li>
+                            </ul>
+                            <p class="partition">🔼 <strong>Resultado Ronda 1:</strong>
+                                <code>[<strong>2</strong>, 0, 1, <strong>3</strong>, 7, 8, 5, 4, 9, 6]</code>. Pivote en
+                                <code>l=3</code>.</p>
+                            <p>Llamadas recursivas:</p>
+                            <ul>
+                                <li><code>Sort(T, 0, 2)</code> para <code>[2, 0, 1]</code></li>
+                                <li><code>Sort(T, 4, 9)</code> para <code>[7, 8, 5, 4, 9, 6]</code></li>
+                            </ul>
+
+                            <div class="step step-level-1">
+                                <h5>Nivel 1 (Izq): <code>Sort(T, i=0, j=2)</code></h5>
+                                <div class="step__content">
+                                    <p class="array-state">[<strong>2</strong>, 0, 1]</p>
+                                    <p>Pivote <code>p = T[0] = 2</code>. <code>k=0</code>, <code>l=3</code>.</p>
+                                    <ul>
+                                        <li>Scan <code>k</code> (busca <code>> 2</code>): no encuentra. Se detiene en
+                                            <code>k=2</code>.</li>
+                                        <li>Scan <code>l</code> (busca <code>&lt;= 2</code>): se detiene en
+                                            <code>T[2]=1</code>. (<code>l=2</code>)</li>
+                                        <li><code>k = l</code> (2=2). Los punteros se cruzan.</li>
+                                        <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                            (<code>T[0]=2</code>) con <code>T[l]</code> (<code>T[2]=1</code>).</li>
+                                    </ul>
+                                    <p class="partition">🔼 <strong>Resultado:</strong>
+                                        <code>[<strong>1</strong>, 0, <strong>2</strong>]</code>. Pivote en
+                                        <code>l=2</code>.</p>
+                                    <p>Llamadas: <code>Sort(T, 0, 1)</code> para <code>[1, 0]</code>.</p>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2 (Izq): <code>Sort(T, i=0, j=1)</code></h6>
+                                        <div class="step__content">
+                                            <p class="array-state">[<strong>1</strong>, 0]</p>
+                                            <p>Pivote <code>p = T[0] = 1</code>. <code>k=0</code>, <code>l=2</code>.</p>
+                                            <ul>
+                                                <li>Scan <code>k</code> (busca <code>> 1</code>): no encuentra. Se
+                                                    detiene en <code>k=1</code>.</li>
+                                                <li>Scan <code>l</code> (busca <code>&lt;= 1</code>): se detiene en
+                                                    <code>T[1]=0</code>. (<code>l=1</code>)</li>
+                                                <li><code>k = l</code> (1=1). Se cruzan.</li>
+                                                <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                                    (<code>T[0]=1</code>) con <code>T[l]</code> (<code>T[1]=0</code>).
+                                                </li>
+                                            </ul>
+                                            <p class="partition">🔼 <strong>Resultado:</strong>
+                                                <code>[<strong>0</strong>, <strong>1</strong>]</code>. Pivote en
+                                                <code>l=1</code>.</p>
+                                            <p class="base-case">Llamada a <code>Sort(T,0,0)</code> (trivial). Retorna.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step step-level-1">
+                                <h5>Nivel 1 (Der): <code>Sort(T, i=4, j=9)</code></h5>
+                                <div class="step__content">
+                                    <p class="array-state">[...3, <strong>7</strong>, 8, 5, 4, 9, 6]</p>
+                                    <p>Pivote <code>p = T[4] = 7</code>. <code>k=4</code>, <code>l=10</code>.</p>
+                                    <ul>
+                                        <li>Scan <code>k</code> (busca <code>> 7</code>): se detiene en
+                                            <code>T[5]=8</code>. (<code>k=5</code>)</li>
+                                        <li>Scan <code>l</code> (busca <code>&lt;= 7</code>): se detiene en
+                                            <code>T[9]=6</code>. (<code>l=9</code>)</li>
+                                        <li><code>k < l</code> (5 < 9). Intercambia <code>T[5]</code> (8) y
+                                                <code>T[9]</code> (6).</li>
+                                        <li class="array-state">[...3, 7, <strong>6</strong>, 5, 4, 9,
+                                            <strong>8</strong>]</li>
+                                        <li>Scan <code>k</code> (continúa): se detiene en <code>T[8]=9</code>.
+                                            (<code>k=8</code>)</li>
+                                        <li>Scan <code>l</code> (continúa): se detiene en <code>T[7]=4</code>.
+                                            (<code>l=7</code>)</li>
+                                        <li><code>k > l</code> (8 > 7). Se cruzan.</li>
+                                        <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                            (<code>T[4]=7</code>) con <code>T[l]</code> (<code>T[7]=4</code>).</li>
+                                    </ul>
+                                    <p class="partition">🔼 <strong>Resultado:</strong>
+                                        <code>[...3, <strong>4</strong>, 6, 5, <strong>7</strong>, 9, 8]</code>. Pivote
+                                        en <code>l=7</code>.</p>
+                                    <p>Llamadas: <code>Sort(T, 4, 6)</code> para <code>[4, 6, 5]</code> y
+                                        <code>Sort(T, 8, 9)</code> para <code>[9, 8]</code>.</p>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2 (Der-Izq): <code>Sort(T, i=4, j=6)</code></h6>
+                                        <div class="step__content">
+                                            <p class="array-state">[...7, <strong>4</strong>, 6, 5]</p>
+                                            <p>Pivote <code>p = T[4] = 4</code>. <code>k=4</code>, <code>l=7</code>.</p>
+                                            <ul>
+                                                <li>Scan <code>k</code> (busca <code>> 4</code>): se detiene en
+                                                    <code>T[5]=6</code>. (<code>k=5</code>)</li>
+                                                <li>Scan <code>l</code> (busca <code>&lt;= 4</code>): se detiene en
+                                                    <code>T[4]=4</code>. (<code>l=4</code>)</li>
+                                                <li><code>k > l</code> (5 > 4). Se cruzan.</li>
+                                                <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                                    (<code>T[4]=4</code>) con <code>T[l]</code> (<code>T[4]=4</code>).
+                                                    (Sin cambios)</li>
+                                            </ul>
+                                            <p class="partition">🔼 <strong>Resultado:</strong> <code>[4, 6, 5]</code>.
+                                                Pivote en <code>l=4</code>.</p>
+                                            <p>Llamada: <code>Sort(T, 5, 6)</code> para <code>[6, 5]</code>.</p>
+
+                                            <div class="step step-level-3">
+                                                <p><strong>Nivel 3: <code>Sort(T, i=5, j=6)</code></strong></p>
+                                                <div class="step__content">
+                                                    <p class="array-state">[...4, <strong>6</strong>, 5]</p>
+                                                    <p>Pivote <code>p = T[5] = 6</code>. <code>k=5</code>,
+                                                        <code>l=7</code>.</p>
+                                                    <ul>
+                                                        <li>Scan <code>k</code> (busca <code>> 6</code>): no encuentra.
+                                                            Se detiene en <code>k=6</code>.</li>
+                                                        <li>Scan <code>l</code> (busca <code>&lt;= 6</code>): se detiene
+                                                            en <code>T[6]=5</code>. (<code>l=6</code>)</li>
+                                                        <li><code>k = l</code> (6=6). Se cruzan.</li>
+                                                        <li><strong>Intercambio Final:</strong> Intercambia
+                                                            <code>T[i]</code> (<code>T[5]=6</code>) con
+                                                            <code>T[l]</code> (<code>T[6]=5</code>).</li>
+                                                    </ul>
+                                                    <p class="partition">🔼 <strong>Resultado:</strong>
+                                                        <code>[...4, <strong>5</strong>, <strong>6</strong>]</code>.
+                                                        Pivote en <code>l=6</code>.</p>
+                                                    <p class="base-case">Llamada trivial. Retorna.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="step step-level-2">
+                                        <h6>Nivel 2 (Der-Der): <code>Sort(T, i=8, j=9)</code></h6>
+                                        <div class="step__content">
+                                            <p class="array-state">[...7, <strong>9</strong>, 8]</p>
+                                            <p>Pivote <code>p = T[8] = 9</code>. <code>k=8</code>, <code>l=10</code>.
+                                            </p>
+                                            <ul>
+                                                <li>Scan <code>k</code> (busca <code>> 9</code>): no encuentra. Se
+                                                    detiene en <code>k=9</code>.</li>
+                                                <li>Scan <code>l</code> (busca <code>&lt;= 9</code>): se detiene en
+                                                    <code>T[9]=8</code>. (<code>l=9</code>)</li>
+                                                <li><code>k = l</code> (9=9). Se cruzan.</li>
+                                                <li><strong>Intercambio Final:</strong> Intercambia <code>T[i]</code>
+                                                    (<code>T[8]=9</code>) con <code>T[l]</code> (<code>T[9]=8</code>).
+                                                </li>
+                                            </ul>
+                                            <p class="partition">🔼 <strong>Resultado:</strong>
+                                                <code>[...7, <strong>8</strong>, <strong>9</strong>]</code>. Pivote en
+                                                <code>l=9</code>.</p>
+                                            <p class="base-case">Llamada trivial. Retorna.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="final-result">
+                                Todas las llamadas recursivas han finalizado.<br>
+                                <strong>El array final ordenado es: <code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="page-footer">
+            <p>&copy; 2025 - Proyecto PREDA (Programación y Estructuras de Datos Avanzadas) - UNED</p>
+            <p class="mt-05"><a href="index.html">← Volver al índice del libro PREDA</a></p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

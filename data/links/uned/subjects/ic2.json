@@ -1,5 +1,12 @@
 [
   {
+    "title": "Libro IC2 — Explicaciones",
+    "url": "books/ic2/index.html",
+    "description": "Índice del libro IC2. Capítulos y materiales de apoyo.",
+    "section": "IC2",
+    "sectionColor": "#2563EB"
+  },
+  {
     "title": "Morillo IC2",
     "url": "https://nikolasmorillo.blogspot.com/2020/04/ingenieria-de-computadores-2-uned.html",
     "description": "Apuntes Morillo",

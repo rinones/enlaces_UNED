@@ -14,7 +14,6 @@ Qué cambió (optimización de estructura):
 
 Estructura relevante:
  - index.html, uned.html, travel.html, contenido.html
-  - quick-sort.html (página explicativa de Quicksort, accesible desde la navegación)
 - data/: ficheros JSON con enlaces y actividades
 - assets/: iconos e imágenes
 - src/scss/: estilos fuente (parciales + `main.scss`)

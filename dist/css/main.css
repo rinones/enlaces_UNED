@@ -729,7 +729,6 @@ html.dark .link-desc {
     height: auto;
   }
 }
-/* Component and page partials */
 /* Botonera component styles (partial)
    Scoped to #uned-subject-selector to avoid collisions with global styles.
    Import this partial from your main SCSS build (e.g. @import 'botonera';)

@@ -1,12 +1,4 @@
-@import 'base';
-@import 'grid';
-@import 'notices';
-
-/* Component and page partials */
-@import 'botonera';
-@import 'preda';
-@import 'quicksort';
-@import 'mergesort';
+@use 'index';
 
 /* Estilos adicionales rápidos */
 

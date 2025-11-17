@@ -1,5 +1,12 @@
 [
   {
+    "title": "Libro REDES — Explicaciones",
+    "url": "books/redes/index.html",
+    "description": "Índice del libro REDES. Capítulos y materiales de apoyo.",
+    "section": "REDES",
+    "sectionColor": "#7C3AED"
+  },
+  {
     "title": "Autoevaluación REDES",
     "url": "https://ineda.lsi.uned.es/recursos/self-assessment/REDES/",
     "description": "Herramienta de autoevaluación de la UNED",

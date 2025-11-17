@@ -1,7 +1,12 @@
 [
 	{
 		"title": "Libro PREDA — Explicaciones",
-		"url": "preda-book.html",
+		"url": "books/preda/index.html",
 		"description": "Índice del libro PREDA. Contiene capítulos con explicaciones (p.ej. Mergesort)."
+	},
+	{
+		"title": "Quicksort — Explicación detallada (PREDA)",
+		"url": "books/preda/quicksort.html",
+		"description": "Capítulo 4 (DyV): versión detallada centrada en la fase de partición con trazas paso a paso."
 	}
 ]

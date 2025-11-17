@@ -93,7 +93,7 @@ export function initUnedPage(){
   function loadCommonLinks(){
     return fetchJSON('data/links/uned/common.json').then(items=>{ if(Array.isArray(items)) renderLinksGrid(commonGrid, items); else {
       const cache=getUnifiedLinksCache(); if(cache && cache.uned && Array.isArray(cache.uned.common)) renderLinksGrid(commonGrid, cache.uned.common);
-      else return fetchJSON('data/links.json').then(idx=>{ const arr=idx && idx.uned && Array.isArray(idx.uned.common) ? idx.uned.common : null; if(arr) renderLinksGrid(commonGrid, arr); else return fetchJSON('data/uned-common-links.json').then(legacy=>renderLinksGrid(commonGrid, legacy||[])); });
+  else return fetchJSON('data/links.json').then(idx=>{ const arr=idx && idx.uned && Array.isArray(idx.uned.common) ? idx.uned.common : null; if(arr) renderLinksGrid(commonGrid, arr); else return fetchJSON('data/uned-common-links.json').then(legacy=>renderLinksGrid(commonGrid, legacy||[])); });
     }});
   }
   function loadSubjectLinks(slug){

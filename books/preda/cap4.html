@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Capítulo 4 — Divide y Vencerás (PREDA)</title>
-  <link rel="stylesheet" href="dist/css/main.css">
+  <link rel="stylesheet" href="../../dist/css/main.css">
 </head>
 <body>
   <main class="cap-container">
@@ -14,8 +14,8 @@
         <div class="cap-meta">Capítulo 4 · Técnicas de diseño · PREDA</div>
       </div>
       <div class="page-actions">
-        <a class="btn" href="preda-book.html">Índice PREDA</a>
-        <a class="btn" href="uned.html">Volver a UNED</a>
+        <a class="btn" href="index.html">Índice PREDA</a>
+        <a class="btn" href="../../uned.html#preda">Volver a UNED</a>
       </div>
     </header>
 
@@ -44,7 +44,7 @@
   
   // 1. Dividir
   sino:
-    {p1, p2, ... pk} = descomponer(problema)
+    {p1, p2, ... k} = descomponer(problema)
     
     // 2. Vencer (Llamadas Recursivas)
     s1 = DyV(p1)
@@ -63,13 +63,13 @@
           <p>No todos los algoritmos DyV son iguales. El trabajo (la complejidad) puede estar en el paso "Dividir" o en el paso "Combinar".</p>
 
           <div class="example">
-            <h4>Extremo 1: Combinación Costosa (Ej. <a href="merge-short.html">Mergesort</a>)</h4>
+            <h4>Extremo 1: Combinación Costosa (Ej. <a href="mergesort.html">Mergesort</a>)</h4>
             <p>Dividir: Es gratis. Simplemente calculas la mitad del vector (O(1)).</p>
             <p>Combinar: Es costoso. Tienes que Fusionar (merge) dos vectores ya ordenados, lo que requiere un recorrido lineal (O(n)).</p>
           </div>
 
           <div class="mt-06">
-            <h4>Extremo 2: División Costosa (Ej. <a href="quick-sort.html">Quicksort</a>)</h4>
+            <h4>Extremo 2: División Costosa (Ej. <a href="quicksort.html">Quicksort</a>)</h4>
             <p>Dividir: Es costoso. Tienes que Pivotar el vector, comparando y moviendo n elementos (O(n)).</p>
             <p>Combinar: Es gratis. Como los elementos ya están en su sitio (&lt; pivote | pivote | &gt; pivote), no hay nada que hacer (O(1)).</p>
           </div>
@@ -90,7 +90,7 @@
 
           <p>Esto se resuelve con el Teorema Maestro, que nos da 3 casos:</p>
 
-          <h3>Caso Equilibrado: O(n log n) (Ej. <a href="merge-short.html">Mergesort</a>, <a href="quick-sort.html">Quicksort</a>, Skyline, Puntos Cercanos)</h3>
+          <h3>Caso Equilibrado: O(n log n) (Ej. <a href="mergesort.html">Mergesort</a>, <a href="quicksort.html">Quicksort</a>, Skyline, Puntos Cercanos)</h3>
           <p>Ocurre cuando el coste de Dividir/Combinar es lineal (O(n)) y lo divides en 2 mitades (a=2, b=2, k=1).</p>
           <p>Ecuación: <code class="math-inline">T(n) = 2T(n/2) + O(n).</code></p>
           <p>Intuición: El trabajo en cada "nivel" del árbol de recursión es el mismo (siempre O(n)), y hay log n niveles. Total: O(n log n).</p>
@@ -150,7 +150,7 @@
 
           <p>Dividir: Parte el vector en dos mitades (O(1)).</p>
 
-          <p>Vencer: Llama recursivamente <code class="inline">m_izq = Mayoritario(mitad_izq)</code> y <code class="inline">m_der = Mayoritario(mitad_der)</code> (<code class="math-inline">2T(n/2)</code>).</p>
+          <p>Vencer: Llama recursivamente <code class="inline">m_izq = Mayoritario(mitad_izq)</code> y <code class="inline">m_der = Mayoritario(mitad_der)</code> (<code class="math-inline">2T(n/2)</code>).
 
           <p>Combinar: Este es el paso clave (O(n)).</p>
 
@@ -167,9 +167,9 @@
         <section class="nav-links">
           <h3>Enlaces rápidos</h3>
           <ul>
-            <li><a href="merge-short.html">Mergesort — explicación detallada (Cap. 4, sección: mezcla)</a></li>
-            <li><a href="quick-sort.html">Quicksort — explicación detallada (Cap. 4, sección: partición)</a></li>
-            <li><a href="preda-book.html">Volver al índice del libro PREDA</a></li>
+            <li><a href="mergesort.html">Mergesort — explicación detallada (Cap. 4, sección: mezcla)</a></li>
+            <li><a href="quicksort.html">Quicksort — explicación detallada (Cap. 4, sección: partición)</a></li>
+            <li><a href="index.html">Volver al índice del libro PREDA</a></li>
           </ul>
         </section>
       </main>
@@ -184,8 +184,8 @@
           <li><a href="#afrontar-problemas">5. Cómo Afrontar los Problemas</a></li>
         </ul>
     <hr/>
-  <div class="mt-06"><a href="merge-short.html">Ir a Mergesort</a></div>
-  <div class="mt-04"><a href="quick-sort.html">Ir a Quicksort</a></div>
+  <div class="mt-06"><a href="mergesort.html">Ir a Mergesort</a></div>
+  <div class="mt-04"><a href="quicksort.html">Ir a Quicksort</a></div>
       </aside>
     </div>
 
