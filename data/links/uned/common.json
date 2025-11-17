@@ -39,4 +39,13 @@
     "sectionColor": "#FF8A00",
     "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><circle cx='12' cy='12' r='10' fill='#FFF1E6'/><path d='M8 12h8' stroke='#FF8A00' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
   }
+  ,
+  {
+    "title": "Character Count Tool",
+    "url": "https://charactercounttool.com/",
+    "description": "Contador rápido de caracteres y palabras.",
+    "section": "Herramientas",
+    "sectionColor": "#FF8A00",
+    "icon": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='48' height='48' aria-hidden='true'><rect x='4' y='4' width='16' height='16' rx='2' fill='#FFF1E6'/><path d='M8 9h8M8 12h5M8 15h8' stroke='#FF8A00' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+  }
 ]
